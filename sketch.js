@@ -102,6 +102,7 @@ function masseImVergleich(){
   text('Shutterstock Libary', 180, 470 , 50);
 
   text('Fotos im Laufe eines Lebens', 25, 590 , 200);
+  //test
 
   fill("#0101FF");
   noStroke();
