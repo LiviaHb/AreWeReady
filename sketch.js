@@ -89,9 +89,22 @@ function draw() {
 
 function masseImVergleich(){
 
+
   textFont(lightFont);
   textSize(60);
   text('Masse im Vergleich', 40, 250);
+
+  textFont(boldFont);
+  textSize(150);
+  fill("#0101FF");
+  text("15 Mrd", 700, 400);
+  textFont(pFont);
+  textSize(34);
+  fill("black");
+  textWrap(WORD);
+  text('Bilder wurden 2022 von KI generiert.', 710, 450, 400);
+
+
 
   noStroke();
   textFont(pFont);
@@ -102,11 +115,11 @@ function masseImVergleich(){
   text('Shutterstock Libary', 180, 470 , 50);
 
   text('Fotos im Laufe eines Lebens', 25, 590 , 200);
-  //test
+
 
   fill("#0101FF");
   noStroke();
-  circle(500, 550, 400);
+  circle(500, 530, 370);
   fill("#FFFFF");
   strokeWeight(2);
   stroke(0);
