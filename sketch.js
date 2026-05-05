@@ -6,6 +6,9 @@ let boldFont;
 let regularFont;
 let pFont;
 
+//BIG NUMBER SIZE
+let bigNumberSize = 140;
+
 let angles = [345, 54];
 let myArray = ['#E4E4E4', '#0101FF'];
 
@@ -32,7 +35,7 @@ function setup() {
 
   scale(0.215);
   tint(255,15);
-  //image(img1, 0, 0);
+  image(img1, 0, 0);
 
 
 }
@@ -41,9 +44,6 @@ function setup() {
 function draw() {
 
 
-
-
-  /*
   //orbitControl();
   //model(shape);
   noStroke();
@@ -75,11 +75,11 @@ function draw() {
   //saeulenDia();
   pop();
 
-  */
+  
 
   push();
-  //translate(760, 1170);
-  //scale(0.4);
+  translate(500, 1550);
+  scale(0.4);
   masseImVergleich();
   pop();
 
@@ -95,14 +95,37 @@ function masseImVergleich(){
   text('Masse im Vergleich', 40, 250);
 
   textFont(boldFont);
-  textSize(150);
+  textSize(bigNumberSize);
   fill("#0101FF");
-  text("15 Mrd", 700, 400);
+  text("15", 650, 300);
+  textSize(60);
+  text("Mrd.", 820, 300);
   textFont(pFont);
   textSize(34);
   fill("black");
   textWrap(WORD);
-  text('Bilder wurden 2022 von KI generiert.', 710, 450, 400);
+  text('Bilder wurden 2022 von KI generiert.', 650, 350, 350);
+
+  textFont(boldFont);
+  textSize(bigNumberSize);
+  fill("#0101FF");
+  text("23", 1000, 300);
+  textFont(pFont);
+  textSize(34);
+  fill("black");
+  textWrap(WORD);
+  text('-fache der ganze Shutterstock Libary.', 1000, 350, 350);
+
+
+  textFont(boldFont);
+  textSize(bigNumberSize);
+  fill("#0101FF");
+  text("23.000", 650, 600);
+  textFont(pFont);
+  textSize(34);
+  fill("black");
+  textWrap(WORD);
+  text('-fache aller Fotos, die ein Mensch in seinem Leben gemacht hat', 650, 650, 600);
 
 
 
@@ -112,24 +135,26 @@ function masseImVergleich(){
   textWrap(WORD);
   textAlign(RIGHT);
   fill("#808080");
-  text('Shutterstock Libary', 180, 470 , 50);
+  text('Shutterstock Libary', 150, 470 , 50);
 
-  text('Fotos im Laufe eines Lebens', 25, 590 , 200);
+  text('Fotos im Laufe eines Lebens', 0, 590 , 200);
 
 
   fill("#0101FF");
   noStroke();
-  circle(500, 530, 370);
+  circle(400, 480, 360);
   fill("#FFFFF");
   strokeWeight(2);
   stroke(0);
-  circle(420, 480, 80);
-  circle(380, 600, 20);
+  circle(410, 480, 80);
+  circle(370, 600, 20);
 
 
   
   line(250, 480, 360, 480);
   line(250, 600, 360, 600);
+
+  line()
 
   fill("black");
 
@@ -145,7 +170,7 @@ function reddit(){
 
   // ZAHL
   textFont(boldFont);
-  textSize(162);
+  textSize(bigNumberSize);
   fill("#0101FF");
   text('15%', 30, 420);
   
