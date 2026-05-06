@@ -92,7 +92,7 @@ function masseImVergleich(){
 
   textFont(lightFont);
   textSize(60);
-  text('Masse im Vergleich', 40, 250);
+  text('Masse im Vergleich', 0, 250);
 
   textFont(boldFont);
   textSize(bigNumberSize);
@@ -120,12 +120,12 @@ function masseImVergleich(){
   textFont(boldFont);
   textSize(bigNumberSize);
   fill("#0101FF");
-  text("23.000", 650, 600);
+  text("23.000", 650, 570);
   textFont(pFont);
   textSize(34);
   fill("black");
   textWrap(WORD);
-  text('-fache aller Fotos, die ein Mensch in seinem Leben gemacht hat', 650, 650, 600);
+  text('-fache aller Fotos, die ein Mensch in seinem Leben gemacht hat', 650, 620, 600);
 
 
 
@@ -135,29 +135,35 @@ function masseImVergleich(){
   textWrap(WORD);
   textAlign(RIGHT);
   fill("#808080");
-  text('Shutterstock Libary', 150, 470 , 50);
+  text('Shutterstock Libary', 100, 430 , 50);
 
-  text('Fotos im Laufe eines Lebens', 0, 590 , 200);
+  text('Fotos im Laufe eines Lebens', -50, 525 , 200);
 
 
   fill("#0101FF");
   noStroke();
   circle(400, 480, 360);
+
+  push();
+
+  translate(-70,-50);
+
   fill("#FFFFF");
   strokeWeight(2);
   stroke(0);
   circle(410, 480, 80);
-  circle(370, 600, 20);
+  circle(370, 580, 20);
 
 
   
   line(250, 480, 360, 480);
-  line(250, 600, 360, 600);
+  line(250, 580, 360, 580);
 
   line()
 
   fill("black");
 
+  pop();
 
 
 }
