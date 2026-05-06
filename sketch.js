@@ -10,6 +10,7 @@ let pFont;
 let bigNumberSize = 140;
 
 let angles = [345, 54];
+let halbeangles = [180,180];
 let myArray = ['#E4E4E4', '#0101FF'];
 
 //obj
@@ -43,7 +44,7 @@ function setup() {
 
 function draw() {
 
-
+/*
   //orbitControl();
   //model(shape);
   noStroke();
@@ -82,17 +83,71 @@ function draw() {
   scale(0.4);
   masseImVergleich();
   pop();
+*/
 
+push();
+
+konfidenz();
+pop();
  
 }
 
 
 function konfidenz(){
 
+  push();
+  translate(0,250);
+  textFont(lightFont);
+  textSize(60);
+  text('Konfidenz- prüfung', 40, 200, 50);
 
+  // ZAHL
+  textFont(boldFont);
+  textSize(bigNumberSize);
+  fill("#0101FF");
+  text('52%', 30, 420);
   
 
+  // Fließtext
+  textFont(pFont);
+  textSize(34);
+  fill("black");
+  textWrap(WORD);
+  text('von KI generierten Bildern wurden in einem Test richtig erkannt. Das ist ungefähr die Wahrscheinlichkeit eines Münzwurfes.', 30, 470, 650);
+  fill("#A7A7A7");
+  text('49% der echten Bilder wurden richtig erkannt..', 30, 640, 650);
 
+  pop();
+
+  //PIE CHART
+  push();
+  translate(220, 200);
+  scale(-1,1);
+  haelfte(365, angles);
+  pop();
+
+
+}
+
+function haelfte(diameter, data) {
+
+  let lastAngle = 0;
+ 
+  for (let i = 0; i < data.length; i++) {
+
+    fill(myArray[i]); //Farbe
+    rotate(100);
+    arc(
+      0,
+      0,
+      diameter,
+      diameter,
+      lastAngle,
+      lastAngle + radians(halbeangles[i])
+    );
+    lastAngle += radians(halbeangles[i]);
+    
+  }
 }
 
 
@@ -228,6 +283,8 @@ function pieChart(diameter, data) {
     
   }
 }
+
+
 
 
 function bigNumber(){
