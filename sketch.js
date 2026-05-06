@@ -87,6 +87,15 @@ function draw() {
 }
 
 
+function konfidenz(){
+
+
+  
+
+
+}
+
+
 function masseImVergleich(){
 
 
