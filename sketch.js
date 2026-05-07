@@ -10,7 +10,7 @@ let pFont;
 let bigNumberSize = 140;
 
 let angles = [345, 54];
-let halbeangles = [180,180];
+let halbeangles = [241,180];
 let myArray = ['#E4E4E4', '#0101FF'];
 
 //obj
@@ -44,7 +44,7 @@ function setup() {
 
 function draw() {
 
-/*
+  /*
   //orbitControl();
   //model(shape);
   noStroke();
@@ -71,26 +71,31 @@ function draw() {
   reddit();
   pop();
 
-  
   push();
-  //saeulenDia();
+  translate(830, 350);
+  scale(0.4);
+  konfidenz();
   pop();
 
-  
 
   push();
   translate(500, 1550);
   scale(0.4);
   masseImVergleich();
   pop();
-*/
+   */
 
-push();
 
-konfidenz();
-pop();
- 
+  push();
+  kitools();
+  pop();
+
+
+
+
 }
+
+
 
 
 function konfidenz(){
@@ -113,23 +118,34 @@ function konfidenz(){
   textSize(34);
   fill("black");
   textWrap(WORD);
-  text('von KI generierten Bildern wurden in einem Test richtig erkannt. Das ist ungefähr die Wahrscheinlichkeit eines Münzwurfes.', 30, 470, 650);
+  text('von KI generierten Bildern wurden in einem Test richtig erkannt. Das ist ungefähr die Wahrscheinlichkeit eines Münzwurfes.', 30, 470, 385);
   fill("#A7A7A7");
-  text('49% der echten Bilder wurden richtig erkannt..', 30, 640, 650);
+  text('49% der echten Bilder wurden richtig erkannt..', 30, 770, 400);
 
   pop();
 
   //PIE CHART
   push();
-  translate(220, 200);
-  scale(-1,1);
+  
+  translate(200, 120);
+  scale(1,-1);
   haelfte(365, angles);
   pop();
+
+  strokeWeight(4);
+  stroke(0);
+
+  fill("#000000");
+  line(-60,120,460,120);
+
 
 
 }
 
 function haelfte(diameter, data) {
+
+  noStroke();
+
 
   let lastAngle = 0;
  
@@ -333,7 +349,12 @@ function title(){
 
 }
 
-function saeulenDia() {
+function kitools() {
+
+  fill("#E4E4E4");
+  textFont(pFont);
+  textSize(20);
+
   let spalte1 = table.getColumn("Spalte1").map(Number);
   let namen = table.getColumn("namen");
   
@@ -341,48 +362,33 @@ function saeulenDia() {
   let margin = 100;
   let startX = margin;
   let startY = height - margin;
-  let endX = width - margin;
-  let endY = margin;
 
   let chartWidth = width - margin * 2;
-  let chartHeight = height - margin * 2;
+  let chartHeight = height - margin * 13;
 
   let barWidth = chartWidth / spalte1.length;
-
-  let ySchritte = 7;
-  let abstandY = chartHeight / ySchritte;
 
   noStroke();
 
   for (let i = 0; i < spalte1.length; i++) {
     let barHeight = map(spalte1[i], 0, 35, 0, chartHeight);
-    rect(startX + i * barWidth, startY - barHeight, barWidth * 0.8, barHeight);
+    rect(startX + i * barWidth, startY - barHeight, barWidth * 0.6, barHeight);
     
     let xPos = startX + i * barWidth + barWidth/2;
-    textAlign(CENTER, CENTER);
-    text(namen[i], xPos, startY + 10);
+    textAlign(LEFT, CENTER);
+    fill("#A7A7A7");
+    push();
+    translate(xPos - 15, startY + 15);
+    rotate(radians(90));
+    text(namen[i], 0, 0 + 15);
+    print(xPos);
+    pop();
+    fill("#E4E4E4");
+
+    if (i == 3) {
+      fill("#0101FF");
+    }
     
   }
-
-  stroke(20);
-  line(startX, startY, endX, startY);
-  line(startX, startY, startX, endY);
-
-  for (let i = 1; i < ySchritte; i++) {
-    let unterteilungY = startY - i * abstandY;
-    let labelWert = i * 5;
-    noStroke();
-    textAlign(RIGHT, CENTER);
-    text(labelWert, startX - 10, unterteilungY);
-
-    stroke(20, 255);
-    drawingContext.setLineDash([]);
-
-    line(startX, unterteilungY, startX - 5, unterteilungY);
-
-    drawingContext.setLineDash([2, 15]);
-    stroke(20, 100);
-    line(startX, unterteilungY, endX, unterteilungY);
-    drawingContext.setLineDash([]);
-  }
+ 
 }
