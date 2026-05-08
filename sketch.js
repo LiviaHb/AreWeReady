@@ -87,7 +87,7 @@ function draw() {
 
 
   push();
-  kitools();
+  kitoolsText();
   pop();
 
 
@@ -349,7 +349,37 @@ function title(){
 
 }
 
+function kitoolsText(){
+
+
+  push();
+  textFont(lightFont);
+  textSize(60);
+  text('Generative KI-Tools', 40, 200);
+
+  // ZAHL
+  textFont(boldFont);
+  textSize(bigNumberSize);
+  fill("#0101FF");
+  text('23.000', 30, 350);
+  
+
+  // Fließtext
+  textFont(pFont);
+  textSize(34);
+  fill("black");
+  textWrap(WORD);
+  text('KI-Generierte Bilder pro Minute in 2024.', 30, 400, 340);
+
+  line(700, 260, 700, 1000);
+
+  translate(-70, -650);
+  kitools();
+
+}
+
 function kitools() {
+
 
   fill("#E4E4E4");
   textFont(pFont);
@@ -363,7 +393,7 @@ function kitools() {
   let startX = margin;
   let startY = height - margin;
 
-  let chartWidth = width - margin * 2;
+  let chartWidth = width - margin * 3;
   let chartHeight = height - margin * 13;
 
   let barWidth = chartWidth / spalte1.length;
@@ -371,7 +401,7 @@ function kitools() {
   noStroke();
 
   for (let i = 0; i < spalte1.length; i++) {
-    let barHeight = map(spalte1[i], 0, 35, 0, chartHeight);
+    let barHeight = map(spalte1[i], 0, 50, 0, chartHeight);
     rect(startX + i * barWidth, startY - barHeight, barWidth * 0.6, barHeight);
     
     let xPos = startX + i * barWidth + barWidth/2;
@@ -380,7 +410,7 @@ function kitools() {
     push();
     translate(xPos - 15, startY + 15);
     rotate(radians(90));
-    text(namen[i], 0, 0 + 15);
+    text(namen[i], 0, 0 + 15, 20);
     print(xPos);
     pop();
     fill("#E4E4E4");
