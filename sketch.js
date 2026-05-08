@@ -5,6 +5,7 @@ let lightFont;
 let boldFont;
 let regularFont;
 let pFont;
+let maxZoom = 3.5;
 
 //BIG NUMBER SIZE
 let bigNumberSize = 140;
@@ -23,6 +24,41 @@ let offsetY = 0;
 
 let mx, my; // mouse coords;
 
+
+function clickable(x, y, r) {
+  return({
+    x: x, 
+    y: y, 
+    r: r,
+    mouseOffset: {
+      x: 0,
+      y: 0
+    },
+    clicked: false,
+    draw: function() {
+      circle(this.x, this.y, this.r * 2)
+    },
+    update: function() {
+      if(dist(this.x, this.y, mouseX, mouseY) < this.r && mouseIsPressed && !this.clicked){
+        this.clicked = true;
+        this.mouseOffset = {
+          x: mouseX - this.x,
+          y: mouseY - this.y
+        }
+        print("clicked");        
+        sf = 3;
+      }else{
+      print(dist(this.x, this.y, mouseX, mouseY));
+      }
+
+      if(!mouseIsPressed) {
+        this.clicked = false;
+      }
+    }
+  })
+  
+}
+
 function preload() {
   table = loadTable("tabelle.csv", "csv", "header");
   lightFont = loadFont('assets/Zodiak-Light.otf');
@@ -40,10 +76,11 @@ function setup() {
   createCanvas(1080, 1920);
   //createCanvas(400, 400);
 
-
-
-
- 
+/*   clickables = [
+    clickable(1000, 100, 20),
+    clickable(50,50,50),
+    clickable(0,0,50),
+  ]  */
 }
 
 
@@ -67,7 +104,11 @@ pop();
   //orbitControl();
   //model(shape);
 
-  
+/*   for(c in clickables){
+    clickables[c].update()
+    clickables[c].draw()
+  } */
+
   //TITEL ARE WE READY
   push();
   translate(40,80);
@@ -115,6 +156,11 @@ pop();
     offsetY -= pmouseY - mouseY;
   }
 
+
+/*     if (sf > maxZoom) {
+    print("max zoom reached");
+  } */
+
 }
 
 
@@ -128,6 +174,8 @@ function mouseWheel(event) {
 
   return false;
 }
+
+
 
 function konfidenz(){
 
@@ -281,6 +329,11 @@ function masseImVergleich(){
 
 function reddit(){
 
+  let localCircle = clickable(0, 0, 50);
+  localCircle.update();
+  localCircle.draw();
+   
+
   textFont(lightFont);
   textSize(60);
   text('Reddit', 40, 250);
@@ -300,6 +353,22 @@ function reddit(){
   text('der Reddit Beiträge wurden in 2025 wahrscheinlich von KI generiert.', 30, 470, 650);
   fill("#A7A7A7");
   text('85% davon sind von Menschen erstellt.', 30, 555, 650);
+
+  // Details
+  textFont(pFont);
+  textSize(23);
+  fill("black");
+  textWrap(WORD);
+  
+  if (sf > maxZoom) {
+
+    text('Eine Studie zu Reddit zeigt, dass etwa 15 Prozent der Beiträge von KI erstellt wurden, was einen leichten Anstieg im Vergleich zum Vorjahr darstellt. Dennoch stammt der Großteil der Inhalte weiterhin von echten Nutzer:innen. Gleichzeitig nimmt der Einsatz von KI in Online-Diskussionen zunehmend zu, wodurch Inhalte schrittweise beeinflusst werden und echte Diskussionen, besonders in großen oder thematischen Communities, an Klarheit verlieren können.', 30, 630, 600);
+ }
+
+
+ 
+
+  noStroke();
 
   //PIE CHART
   push();
@@ -442,7 +511,6 @@ function kitools() {
     translate(xPos - 15, startY + 15);
     rotate(radians(90));
     text(namen[i], 0, 0 + 15, 20);
-    print(xPos);
     pop();
     fill("#E4E4E4");
 
