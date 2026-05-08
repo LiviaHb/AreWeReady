@@ -16,6 +16,13 @@ let myArray = ['#E4E4E4', '#0101FF'];
 //obj
 //let shape;
 
+//ZOOM AND PAN
+let sf = 1; // scaleFactor
+let offsetX = 0;
+let offsetY = 0;
+
+let mx, my; // mouse coords;
+
 function preload() {
   table = loadTable("tabelle.csv", "csv", "header");
   lightFont = loadFont('assets/Zodiak-Light.otf');
@@ -31,24 +38,35 @@ function preload() {
 
 function setup() {
   createCanvas(1080, 1920);
-  background(250);
+  //createCanvas(400, 400);
 
 
-  scale(0.215);
-  tint(255,15);
-  image(img1, 0, 0);
 
 
+ 
 }
 
 
 function draw() {
+//ZOOM
 
-  /*
+
+ background(255);
+
+
+ push();
+  scale(0.215);
+  tint(255,15);
+  //image(img1, 0, 0);
+pop();
+  
+
+  translate(offsetX, offsetY);
+  scale(sf);
+
   //orbitControl();
   //model(shape);
-  noStroke();
-  noLoop(); // Run once and stop
+
   
   //TITEL ARE WE READY
   push();
@@ -83,20 +101,33 @@ function draw() {
   scale(0.4);
   masseImVergleich();
   pop();
-   */
 
 
   push();
+  translate(100, 1450);
+  scale(0.4);
   kitoolsText();
   pop();
+  
 
-
-
+  if (mouseIsPressed) {
+    offsetX -= pmouseX - mouseX;
+    offsetY -= pmouseY - mouseY;
+  }
 
 }
 
 
+function mouseWheel(event) {
+  let zoom = event.delta > 0 ? 0.8 : 1.1;
+  
+  offsetX = mouseX - (mouseX - offsetX) * zoom;
+  offsetY = mouseY - (mouseY - offsetY) * zoom;
+  
+  sf *= zoom;
 
+  return false;
+}
 
 function konfidenz(){
 
@@ -371,9 +402,9 @@ function kitoolsText(){
   textWrap(WORD);
   text('KI-Generierte Bilder pro Minute in 2024.', 30, 400, 340);
 
-  line(700, 260, 700, 1000);
+  line(700, 260, 700, 700);
 
-  translate(-70, -650);
+  translate(-70, -880);
   kitools();
 
 }
