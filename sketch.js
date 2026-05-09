@@ -10,37 +10,29 @@ let maxZoom = 3.5;
 //BIG NUMBER SIZE
 let bigNumberSize = 140;
 
+//Pie Chart Data
 let angles = [345, 54];
 let halbeangles = [241,180];
 let myArray = ['#E4E4E4', '#0101FF'];
 
-//obj
-//let shape;
-
-//ZOOM AND PAN
+//ZOOM AND PAN data
 let sf = 1; // scaleFactor
 let offsetX = 0;
 let offsetY = 0;
 
-let worldMX; 
-let worldMY; 
-
-let mx, my; // mouse coords;
-
-
+let worldMX, worldMY; //Welt-Koordinaten
+let mx, my; //Maus Koordinaten
 
 
 function preload() {
   table = loadTable("tabelle.csv", "csv", "header");
+
   lightFont = loadFont('assets/Zodiak-Light.otf');
   boldFont = loadFont('assets/Zodiak-Bold.otf');
   regularFont = loadFont('assets/Zodiak-Regular.otf');
   pFont = loadFont('assets/PlusJakartaSans-Regular.ttf');
 
-  //sketch load
-  img1 = loadImage("assets/skizze.png");
- 
-  //shape = loadModel('assets/airboat.obj');
+  img1 = loadImage("assets/skizze.png"); //sketch load
 }
 
 function setup() {
@@ -51,22 +43,20 @@ function setup() {
 function draw() {
  background(255);
 
- // NEUE MAUS POSITION FÜR KLICKEN
+  // NEUE MAUS POSITION FÜR KLICKEN
   worldMX = (mouseX - offsetX) / sf;
   worldMY = (mouseY - offsetY) / sf;
 
+  // Zoom und Pan anwenden
+  translate(offsetX, offsetY);
+  scale(sf);
+
+  //SKETCH IM HINTERGRUND
   push();
   scale(0.215);
   tint(255,15);
   //image(img1, 0, 0);
   pop();
-  
-
-  translate(offsetX, offsetY);
-  scale(sf);
-
-
-
 
   //TITEL ARE WE READY
   push();
@@ -82,34 +72,35 @@ function draw() {
   bigNumber();
   pop();
 
-  //Reddit Pie Chart
+  //Reddit
   push();
   translate(760, 1170);
   scale(0.4);
   reddit();
   pop();
 
+  //Konfidenz
   push();
   translate(830, 350);
   scale(0.4);
   konfidenz();
   pop();
 
-
+  //Masse im Vergleich
   push();
   translate(500, 1550);
   scale(0.4);
   masseImVergleich();
   pop();
 
-
+  //KI Tools
   push();
   translate(100, 1450);
   scale(0.4);
   kitoolsText();
   pop();
   
-//PAN!!!!
+  //PAN!!!!
   if (mouseIsPressed) {
     offsetX -= pmouseX - mouseX;
     offsetY -= pmouseY - mouseY;
@@ -127,37 +118,35 @@ function mouseWheel(event) {
   return false;
 }
 
-function mousePressed() {
+function doubleClicked() {
   //Welt-Koordinaten
   worldMX = (mouseX - offsetX) / sf;
   worldMY = (mouseY - offsetY) / sf;
 
   //Reddit Bereich
-  //Reddit liegt bei x=760, y=1170. Wir geben ihm eine Klick-Box von ca. 400x400 Pixeln
-  if (worldMX > 760 && worldMX < 760 + 400 && worldMY > 1170 && worldMY < 1170 + 400) {
-    zoomToTarget(760 + 200, 1170 + 200, 3.5); //Zoomt auf die Mitte von Reddit
+  //Reddit liegt bei x=760, y=1170. KLickbox 300x400
+  if (worldMX > 760 && worldMX < 760 + 300 && worldMY > 1170 && worldMY < 1170 + 400) {
+    zoomToTarget(760 + 150, 1170 + 200, maxZoom+0.1); //Zoomt auf die Mitte von Reddit
   }
   
   //"Konfidenz" Bereich
-  // Konfidenz liegt bei x=830, y=350
-  if (worldMX > 830 && worldMX < 830 + 400 && worldMY > 350 && worldMY < 350 + 400) {
-    zoomToTarget(830 + 200, 350 + 200, 3.0);
+  // Konfidenz liegt bei x=830, y=350. KLickbox 200x400
+  if (worldMX > 830 && worldMX < 830 + 200 && worldMY > 350 && worldMY < 350 + 400) {
+    zoomToTarget(830 + 100, 350 + 200, maxZoom+0.1); //Zoomt auf die Mitte von Konfidenz
   }
 }
 
 function zoomToTarget(targetX, targetY, targetScale) {
   sf = targetScale; 
-  
-  // Diese Formel berechnet den Offset so, dass targetX/Y in der Mitte (width/2) landet
+
   offsetX = width / 2 - targetX * sf;
   offsetY = height / 2 - targetY * sf;
 }
 
-
-
 function konfidenz(){
 
   push();
+
   translate(0,250);
   textFont(lightFont);
   textSize(60);
@@ -169,7 +158,6 @@ function konfidenz(){
   fill("#0101FF");
   text('52%', 30, 420);
   
-
   // Fließtext
   textFont(pFont);
   textSize(34);
@@ -183,7 +171,6 @@ function konfidenz(){
 
   //PIE CHART
   push();
-  
   translate(200, 120);
   scale(1,-1);
   haelfte(365, angles);
@@ -191,23 +178,18 @@ function konfidenz(){
 
   strokeWeight(4);
   stroke(0);
-
   fill("#000000");
   line(-60,120,460,120);
-
-
 
 }
 
 function haelfte(diameter, data) {
 
-  noStroke();
-
-
   let lastAngle = 0;
  
   for (let i = 0; i < data.length; i++) {
 
+    noStroke();
     fill(myArray[i]); //Farbe
     rotate(100);
     arc(
@@ -219,13 +201,10 @@ function haelfte(diameter, data) {
       lastAngle + radians(halbeangles[i])
     );
     lastAngle += radians(halbeangles[i]);
-    
   }
 }
 
-
 function masseImVergleich(){
-
 
   textFont(lightFont);
   textSize(60);
@@ -253,7 +232,6 @@ function masseImVergleich(){
   textWrap(WORD);
   text('-fache der ganze Shutterstock Libary.', 1000, 350, 350);
 
-
   textFont(boldFont);
   textSize(bigNumberSize);
   fill("#0101FF");
@@ -264,8 +242,6 @@ function masseImVergleich(){
   textWrap(WORD);
   text('-fache aller Fotos, die ein Mensch in seinem Leben gemacht hat', 650, 620, 600);
 
-
-
   noStroke();
   textFont(pFont);
   textSize(25);
@@ -273,9 +249,7 @@ function masseImVergleich(){
   textAlign(RIGHT);
   fill("#808080");
   text('Shutterstock Libary', 100, 430 , 50);
-
   text('Fotos im Laufe eines Lebens', -50, 525 , 200);
-
 
   fill("#0101FF");
   noStroke();
@@ -284,30 +258,19 @@ function masseImVergleich(){
   push();
 
   translate(-70,-50);
-
   fill("#FFFFF");
   strokeWeight(2);
   stroke(0);
   circle(410, 480, 80);
   circle(370, 580, 20);
-
-
-  
   line(250, 480, 360, 480);
   line(250, 580, 360, 580);
-
-  
-
   fill("black");
 
   pop();
-
-
 }
 
 function reddit(){
-
-
 
   textFont(lightFont);
   textSize(60);
@@ -340,11 +303,7 @@ function reddit(){
     text('Eine Studie zu Reddit zeigt, dass etwa 15 Prozent der Beiträge von KI erstellt wurden, was einen leichten Anstieg im Vergleich zum Vorjahr darstellt. Dennoch stammt der Großteil der Inhalte weiterhin von echten Nutzer:innen. Gleichzeitig nimmt der Einsatz von KI in Online-Diskussionen zunehmend zu, wodurch Inhalte schrittweise beeinflusst werden und echte Diskussionen, besonders in großen oder thematischen Communities, an Klarheit verlieren können.', 30, 630, 600);
  }
 
-
- 
-
   noStroke();
-
   //PIE CHART
   push();
   translate(480, 200);
@@ -361,6 +320,7 @@ function pieChart(diameter, data) {
   for (let i = 0; i < data.length; i++) {
 
     fill(myArray[i]); //Farbe
+    noStroke();
     rotate(100);
     arc(
       0,
@@ -375,9 +335,6 @@ function pieChart(diameter, data) {
   }
 }
 
-
-
-
 function bigNumber(){
 
   //71
@@ -391,8 +348,6 @@ function bigNumber(){
   fill("#0101FF");
   text('%', 320, 800);
 
-
-   
   textFont(pFont);
   textSize(30);
   fill("black");
@@ -408,7 +363,6 @@ function title(){
   text('Are we', 30, 80);
   //text(myArray[0], 30, 80);
 
-
   textFont(boldFont);
   textSize(120);
   fill("#0101FF");
@@ -419,13 +373,11 @@ function title(){
   fill("black");
   text('for AI?', 30, 230);
 
-
   textSize(12);
 
 }
 
 function kitoolsText(){
-
 
   push();
   textFont(lightFont);
@@ -438,14 +390,12 @@ function kitoolsText(){
   fill("#0101FF");
   text('23.000', 30, 350);
   
-
   // Fließtext
   textFont(pFont);
   textSize(34);
   fill("black");
   textWrap(WORD);
   text('KI-Generierte Bilder pro Minute in 2024.', 30, 400, 340);
-
   line(700, 260, 700, 700);
 
   translate(-70, -880);
@@ -455,14 +405,12 @@ function kitoolsText(){
 
 function kitools() {
 
-
   fill("#E4E4E4");
   textFont(pFont);
   textSize(20);
 
   let spalte1 = table.getColumn("Spalte1").map(Number);
   let namen = table.getColumn("namen");
-  
   
   let margin = 100;
   let startX = margin;
