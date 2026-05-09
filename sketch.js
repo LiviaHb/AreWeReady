@@ -22,42 +22,13 @@ let sf = 1; // scaleFactor
 let offsetX = 0;
 let offsetY = 0;
 
+let worldMX; 
+let worldMY; 
+
 let mx, my; // mouse coords;
 
 
-function clickable(x, y, r) {
-  return({
-    x: x, 
-    y: y, 
-    r: r,
-    mouseOffset: {
-      x: 0,
-      y: 0
-    },
-    clicked: false,
-    draw: function() {
-      circle(this.x, this.y, this.r * 2)
-    },
-    update: function() {
-      if(dist(this.x, this.y, mouseX, mouseY) < this.r && mouseIsPressed && !this.clicked){
-        this.clicked = true;
-        this.mouseOffset = {
-          x: mouseX - this.x,
-          y: mouseY - this.y
-        }
-        print("clicked");        
-        sf = 3;
-      }else{
-      print(dist(this.x, this.y, mouseX, mouseY));
-      }
 
-      if(!mouseIsPressed) {
-        this.clicked = false;
-      }
-    }
-  })
-  
-}
 
 function preload() {
   table = loadTable("tabelle.csv", "csv", "header");
@@ -74,40 +45,28 @@ function preload() {
 
 function setup() {
   createCanvas(1080, 1920);
-  //createCanvas(400, 400);
-
-/*   clickables = [
-    clickable(1000, 100, 20),
-    clickable(50,50,50),
-    clickable(0,0,50),
-  ]  */
 }
 
 
 function draw() {
-//ZOOM
-
-
  background(255);
 
+ // NEUE MAUS POSITION FÜR KLICKEN
+  worldMX = (mouseX - offsetX) / sf;
+  worldMY = (mouseY - offsetY) / sf;
 
- push();
+  push();
   scale(0.215);
   tint(255,15);
   //image(img1, 0, 0);
-pop();
+  pop();
   
 
   translate(offsetX, offsetY);
   scale(sf);
 
-  //orbitControl();
-  //model(shape);
 
-/*   for(c in clickables){
-    clickables[c].update()
-    clickables[c].draw()
-  } */
+
 
   //TITEL ARE WE READY
   push();
@@ -150,29 +109,48 @@ pop();
   kitoolsText();
   pop();
   
-
+//PAN!!!!
   if (mouseIsPressed) {
     offsetX -= pmouseX - mouseX;
     offsetY -= pmouseY - mouseY;
   }
-
-
-/*     if (sf > maxZoom) {
-    print("max zoom reached");
-  } */
+ 
 
 }
 
-
+//ZOOM!!!!
 function mouseWheel(event) {
   let zoom = event.delta > 0 ? 0.8 : 1.1;
-  
   offsetX = mouseX - (mouseX - offsetX) * zoom;
   offsetY = mouseY - (mouseY - offsetY) * zoom;
-  
   sf *= zoom;
-
   return false;
+}
+
+function mousePressed() {
+  //Welt-Koordinaten
+  worldMX = (mouseX - offsetX) / sf;
+  worldMY = (mouseY - offsetY) / sf;
+
+  //Reddit Bereich
+  //Reddit liegt bei x=760, y=1170. Wir geben ihm eine Klick-Box von ca. 400x400 Pixeln
+  if (worldMX > 760 && worldMX < 760 + 400 && worldMY > 1170 && worldMY < 1170 + 400) {
+    zoomToTarget(760 + 200, 1170 + 200, 3.5); //Zoomt auf die Mitte von Reddit
+  }
+  
+  //"Konfidenz" Bereich
+  // Konfidenz liegt bei x=830, y=350
+  if (worldMX > 830 && worldMX < 830 + 400 && worldMY > 350 && worldMY < 350 + 400) {
+    zoomToTarget(830 + 200, 350 + 200, 3.0);
+  }
+}
+
+function zoomToTarget(targetX, targetY, targetScale) {
+  sf = targetScale; 
+  
+  // Diese Formel berechnet den Offset so, dass targetX/Y in der Mitte (width/2) landet
+  offsetX = width / 2 - targetX * sf;
+  offsetY = height / 2 - targetY * sf;
 }
 
 
@@ -318,7 +296,7 @@ function masseImVergleich(){
   line(250, 480, 360, 480);
   line(250, 580, 360, 580);
 
-  line()
+  
 
   fill("black");
 
@@ -329,10 +307,7 @@ function masseImVergleich(){
 
 function reddit(){
 
-  let localCircle = clickable(0, 0, 50);
-  localCircle.update();
-  localCircle.draw();
-   
+
 
   textFont(lightFont);
   textSize(60);
