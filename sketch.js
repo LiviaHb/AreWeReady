@@ -23,6 +23,8 @@ let offsetY = 0;
 let worldMX, worldMY; //Welt-Koordinaten
 let mx, my; //Maus Koordinaten
 
+let shuffleFonts = []; // Array für den Schriften-Wechsel
+
 
 function preload() {
   table = loadTable("tabelle.csv", "csv", "header");
@@ -31,12 +33,14 @@ function preload() {
   boldFont = loadFont('assets/Zodiak-Bold.otf');
   regularFont = loadFont('assets/Zodiak-Regular.otf');
   pFont = loadFont('assets/PlusJakartaSans-Regular.ttf');
-
+  c1font = loadFont('assets/ClashDisplay-Bold.otf');
+ 
   img1 = loadImage("assets/skizze.png"); //sketch load
 }
 
 function setup() {
   createCanvas(1080, 1920);
+  shuffleFonts = [pFont, c1font, lightFont, regularFont];
 }
 
 
@@ -356,25 +360,55 @@ function bigNumber(){
 
 }
 
-function title(){
 
+
+function title() {
+ 
+  let t = frameCount * 0.02; 
+  
+  // --- ZEILE 1: Are we ---
+  push();
+  translate(30, 80 + sin(t) * 5);
   textFont(lightFont);
   textSize(60);
-  text('Are we', 30, 80);
-  //text(myArray[0], 30, 80);
+  fill(0);
+  text('Are we', 0, 0);
+  pop();
 
-  textFont(boldFont);
+  // --- ZEILE 2: ready (Der Font-Shuffle) ---
+  push();
+  translate(30, 170 + sin(t + 0.5) * 5);
+  
+  let cycle = frameCount % 300; 
+  let currentFont = boldFont; // Standardmäßig Bold
+
+  // Wechsel-Phase: Alle 2,5 Sekunden für einen kurzen Moment
+  if (cycle > 240 && shuffleFonts.length > 0) {
+    // Wir nehmen die Zeit (frameCount) um durch das Array zu springen
+    let index = floor(frameCount / 12) % shuffleFonts.length;
+    currentFont = shuffleFonts[index];
+    
+    fill("#0101FF");
+    //translate(random(-2, 2), random(-1, 1)); // Der Glitch-Effekt
+  } else {
+    fill("#0101FF");
+    currentFont = boldFont;
+  }
+
+  textFont(currentFont);
   textSize(120);
-  fill("#0101FF");
-  text('ready', 30, 170);
+  text('ready', 0, 0);
+  pop();
 
+
+  // --- ZEILE 3: for AI? ---
+  push();
+  translate(30, 230 + sin(t + 1) * 5);
   textFont(lightFont);
   textSize(60);
-  fill("black");
-  text('for AI?', 30, 230);
-
-  textSize(12);
-
+  fill(0);
+  text('for AI?', 0, 0);
+  pop();
 }
 
 function kitoolsText(){
