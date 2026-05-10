@@ -64,43 +64,43 @@ function draw() {
 
   //TITEL ARE WE READY
   push();
-  translate(40,80);
-  scale(1.03);
+  translate(40,70);
+  scale(0.8);
   title()
   pop();
 
   //BIG NUMBER
   push();
-  translate(40,-20);
-  scale(0.8);
+  translate(40,-80);
+  scale(0.7);
   bigNumber();
   pop();
 
   //Reddit
   push();
-  translate(760, 1170);
-  scale(0.4);
+  translate(820, 1170);
+  scale(0.3);
   reddit();
   pop();
 
   //Konfidenz
   push();
-  translate(830, 350);
-  scale(0.4);
+  translate(870, 350);
+  scale(0.3);
   konfidenz();
   pop();
 
   //Masse im Vergleich
   push();
-  translate(500, 1550);
-  scale(0.4);
+  translate(650, 1650);
+  scale(0.3);
   masseImVergleich();
   pop();
 
   //KI Tools
   push();
-  translate(100, 1450);
-  scale(0.4);
+  translate(70, 1550);
+  scale(0.3);
   kitoolsText();
   pop();
   
@@ -138,6 +138,19 @@ function doubleClicked() {
   if (worldMX > 830 && worldMX < 830 + 200 && worldMY > 350 && worldMY < 350 + 400) {
     zoomToTarget(830 + 100, 350 + 200, maxZoom+0.1); //Zoomt auf die Mitte von Konfidenz
   }
+
+    //"Masse im Vergleich" Bereich
+  // Masse im Vergleich liegt bei x=650, y=1650. KLickbox 400x200
+  if (worldMX > 650 && worldMX < 650 + 400 && worldMY > 1650 && worldMY < 1650 + 200) {
+    zoomToTarget(650 + 200, 1650 + 100, maxZoom+0.1); //Zoomt auf die Mitte von Masse im Vergleich
+  }
+
+    //"KI-Tools" Bereich
+  // KI-Tools liegt bei x=70, y=1550. KLickbox 200x400
+  if (worldMX > 70 && worldMX < 70 + 200 && worldMY > 1550 && worldMY < 1550 + 400) {
+    zoomToTarget(70 + 100, 1550 + 200, maxZoom+0.1); //Zoomt auf die Mitte von KI-Tools
+  }
+
 }
 
 function zoomToTarget(targetX, targetY, targetScale) {
@@ -172,6 +185,18 @@ function konfidenz(){
   text('49% der echten Bilder wurden richtig erkannt..', 30, 770, 400);
 
   pop();
+
+    // Details
+  textFont(pFont);
+  textSize(23);
+  fill("black");
+  textWrap(WORD);
+
+  if (sf > maxZoom) {
+
+    text("Die meisten Menschen können echte und KI-generierte Bilder nicht zuverlässig unterscheiden. Ihre Einschätzungen liegen oft kaum über dem Zufallsniveau, obwohl viele Menschen glauben, echte von KI-generierten Bildern unterscheiden zu können.Dadurch sinkt das Vertrauen in die eigene Fähigkeit, KI-Inhalte zu erkennen.Gleichzeitig fühlt sich weniger als die Hälfte der Nutzer:innen im Umgang mit solchen Inhalten auf Social Media sicher. Deshalb wünschen sich viele Nutzer:innen klarere Kennzeichnungen für KI-generierten Content. ", 500, 400, 350);
+
+  }
 
   //PIE CHART
   push();
@@ -246,6 +271,18 @@ function masseImVergleich(){
   textWrap(WORD);
   text('-fache aller Fotos, die ein Mensch in seinem Leben gemacht hat', 650, 620, 600);
 
+     if (sf > maxZoom) {
+
+    text('Seit 2022 wurden rund 15 Milliarden Bilder durch KI generiert. Diese Menge übersteigt klassische Bildquellen wie Shutterstock deutlich und liegt um ein Vielfaches über der Bildproduktion eines Menschenlebens.', 20, 750, 900);
+
+    text("Deshalb verändert sich die visuelle Online-Umgebung grundlegend, da KI-generierte Inhalte zunehmend den digitalen Bildraum prägen und die Unterscheidung zwischen echten und künstlichen Bildern erschweren.", 20, 1000, 900);
+
+
+    text("Das kann langfristig dazu führen, dass visuelle Inhalte zunehmend an Glaubwürdigkeit als Informationsquelle verlieren.", 20, 1200, 900);
+
+
+ }
+
   noStroke();
   textFont(pFont);
   textSize(25);
@@ -254,6 +291,8 @@ function masseImVergleich(){
   fill("#808080");
   text('Shutterstock Libary', 100, 430 , 50);
   text('Fotos im Laufe eines Lebens', -50, 525 , 200);
+
+ 
 
   fill("#0101FF");
   noStroke();
@@ -305,6 +344,13 @@ function reddit(){
   if (sf > maxZoom) {
 
     text('Eine Studie zu Reddit zeigt, dass etwa 15 Prozent der Beiträge von KI erstellt wurden, was einen leichten Anstieg im Vergleich zum Vorjahr darstellt. Dennoch stammt der Großteil der Inhalte weiterhin von echten Nutzer:innen. Gleichzeitig nimmt der Einsatz von KI in Online-Diskussionen zunehmend zu, wodurch Inhalte schrittweise beeinflusst werden und echte Diskussionen, besonders in großen oder thematischen Communities, an Klarheit verlieren können.', 30, 630, 600);
+    fill("#0101FF");
+    text("“AI Slop” auf Social Media", 30, 950, 350);
+    fill("black");
+
+    text("Der Begriff “AI-Slop”bezeichnet billige, qualitativ schwache KI-Inhalte, Plattformen überschwemmen. Nutzer:innen sehen diese Inhalte oft als “digitalen Müll”, der den Online-Diskurs verschlechtert. ", 30, 980, 600);
+
+
  }
 
   noStroke();
@@ -431,6 +477,18 @@ function kitoolsText(){
   textWrap(WORD);
   text('KI-Generierte Bilder pro Minute in 2024.', 30, 400, 340);
   line(700, 260, 700, 700);
+
+    if (sf > maxZoom) {
+
+      text('Seit 2022 wurde über 15 Milliarden Bilder mit KI erstellt. Jeden Tag kommen Millionen neue Bilder hinzu, sodass KI in kürzester Zeit mehr Inhalte produziert als früher Menschen in Jahrzehnten.Insgesamt wächst die Bildproduktion durch KI rapide an und dominiert den Markt immer stärker.', 30, 800, 600);
+      fill("#0101FF");
+      text("Urheberrecht und “Nightshade”", 30, 1200, 350);
+      fill("black");
+
+      text("KI-Modelle werden häufig mit Bildern aus dem Internet trainiert, meist ohne die Zustimmung der Urheber:innen. Dadurch entsteht ein Urheberrechtsproblem, da Künstler:innen weder gefragt noch bezahlt werden. Als Reaktion darauf wurden Tools wie Nightshade entwickelt, die versuchen, sich gegen diese Nutzung zu wehren. ", 30, 1300, 600);
+
+
+ }
 
   translate(-70, -880);
   kitools();
