@@ -9,6 +9,7 @@ let maxZoom = 3.5;
 
 //BIG NUMBER SIZE
 let bigNumberSize = 140;
+let displayNumber = 0;
 
 //Pie Chart Data
 let angles = [345, 54];
@@ -19,6 +20,11 @@ let myArray = ['#E4E4E4', '#0101FF'];
 let sf = 1; // scaleFactor
 let offsetX = 0;
 let offsetY = 0;
+
+let targetSf = 1;
+let targetOffsetX = 0;
+let targetOffsetY = 0;
+const EASE = 0.2;  // 0.05 = slower, 0.2 = snappier
 
 let worldMX, worldMY; //Welt-Koordinaten
 let mx, my; //Maus Koordinaten
@@ -49,6 +55,10 @@ function setup() {
 function draw() {
  background(255);
 
+  sf = lerp(sf, targetSf, EASE);
+  offsetX = lerp(offsetX, targetOffsetX, EASE);
+  offsetY = lerp(offsetY, targetOffsetY, EASE);
+
   // NEUE MAUS POSITION FÜR KLICKEN
   worldMX = (mouseX - offsetX) / sf;
   worldMY = (mouseY - offsetY) / sf;
@@ -57,13 +67,12 @@ function draw() {
 
 
   if (sf >= 1) {
-  translate(offsetX, offsetY);
-  scale(sf);
-  print(offsetX, offsetY, sf);
-  } else{
-    sf = 1;
-    offsetX = 0;
-    offsetY = 0;
+    translate(offsetX, offsetY);
+    scale(sf);
+  } else {
+    sf = 1; targetSf = 1;
+    offsetX = 0; targetOffsetX = 0;
+    offsetY = 0; targetOffsetY = 0;
   }
 
 
@@ -104,26 +113,30 @@ function draw() {
 
   //Masse im Vergleich
   push();
-  translate(650, 1650);
+  translate(630, 1630);
   scale(0.3);
   masseImVergleich();
   pop();
 
   //KI Tools
   push();
-  translate(70, 1550);
+  translate(80, 1540);
   scale(0.3);
   kitoolsText();
   pop();
   
   //PAN!!!!
   if (mouseIsPressed && sf > 1) {
-    if(offsetX < 0 && offsetX > width - width*sf){
-    offsetX -= pmouseX - mouseX;
-  }else{
-    offsetX -= pmouseX - mouseX;
-  }
-    offsetY -= pmouseY - mouseY;
+
+  offsetX -= pmouseX - mouseX;
+  offsetY -= pmouseY - mouseY;
+
+  offsetX = constrain(offsetX, width - width * sf - 200, 200);
+  offsetY = constrain(offsetY, height - height * sf - 500, 200);
+
+  targetOffsetX = offsetX;
+  targetOffsetY = offsetY;
+
   } 
  
 
@@ -132,11 +145,20 @@ function draw() {
 //ZOOM!!!!
 function mouseWheel(event) {
   
-  let zoom = event.delta > 0 ? 0.8 : 1.1;
+/*   let zoom = event.delta > 0 ? 0.8 : 1.1;
   offsetX = mouseX - (mouseX - offsetX) * zoom;
   offsetY = mouseY - (mouseY - offsetY) * zoom;
   sf *= zoom;
-  return false;
+  return false; */
+
+  let zoom = event.delta > 0 ? 0.8 : 1.1;
+
+  targetOffsetX = mouseX - (mouseX - targetOffsetX) * zoom;
+  targetOffsetY = mouseY - (mouseY - targetOffsetY) * zoom;
+  targetSf *= zoom;
+
+  return false; 
+
   
 }
 
@@ -172,10 +194,9 @@ function doubleClicked() {
 }
 
 function zoomToTarget(targetX, targetY, targetScale) {
-  sf = targetScale; 
-
-  offsetX = width / 2 - targetX * sf;
-  offsetY = height / 2 - targetY * sf;
+  targetSf = targetScale;
+  targetOffsetX = width / 2 - targetX * targetScale;
+  targetOffsetY = height / 2 - targetY * targetScale;
 }
 
 function konfidenz(){
@@ -409,18 +430,30 @@ function bigNumber(){
   textFont(regularFont);
   textSize(300);
   fill("#0101FF");
-  text('71', 30, 800);
+  if (displayNumber < 71) displayNumber += 0.4;
+  let numStr = str(floor(displayNumber));
+
+  // pulsieren
+  let pulse = 1 + sin(frameCount * 0.02) * 0.015;
+  push();
+  scale(pulse);
+
+  text(numStr, 30, 800);
+
+  let numWidth = textWidth(numStr);
 
   textFont(boldFont);
   textSize(140);
   fill("#0101FF");
-  text('%', 320, 800);
+  text('%', 30 + numWidth + 5, 800);
+  
 
   textFont(pFont);
   textSize(30);
   fill("black");
   textWrap(WORD);
   text('der geteilten Bilder in sozialen Medien weltweit werden mittlerweile von KI generiert', 30, 850, 370);
+  pop();
 
 }
 
