@@ -31,6 +31,10 @@ let mx, my; //Maus Koordinaten
 
 let shuffleFonts = []; // Array für den Schriften-Wechsel
 
+//3D MODEL
+let pg3D;
+let myModel;
+
 
 function preload() {
   table = loadTable("tabelle.csv", "csv", "header");
@@ -44,12 +48,23 @@ function preload() {
   c3font = loadFont('assets/AzeretMono-ExtraLightItalic.ttf');
  
   img1 = loadImage("assets/skizze.png"); //sketch load
+
+  
 }
 
 function setup() {
   createCanvas(1080, 1920);
   shuffleFonts = [pFont, c1font, lightFont, c2font, c3font, regularFont];
+
+  //3D MODEL LOAD
+  pg3D = createGraphics(400, 400, WEBGL);
+  myModel = loadModel('assets/meshimesh.obj', false, 
+  () => { console.log('success') }, 
+  (err) => { console.log('error:', err) }
+);
+
 }
+
 
 
 function draw() {
@@ -76,12 +91,11 @@ function draw() {
   }
 
 
-  //SKETCH IM HINTERGRUND
-  push();
-  scale(0.215);
-  tint(255,15);
-  //image(img1, 0, 0);
-  pop();
+
+  //3D MODEL
+  draw3D();
+  image(pg3D, 400, 400);
+  pg3D.scale(1);
 
   //TITEL ARE WE READY
   push();
@@ -197,6 +211,15 @@ function zoomToTarget(targetX, targetY, targetScale) {
   targetSf = targetScale;
   targetOffsetX = width / 2 - targetX * targetScale;
   targetOffsetY = height / 2 - targetY * targetScale;
+}
+
+
+function draw3D() {
+  pg3D.clear();
+  pg3D.background(255, 0, 0);
+  pg3D.normalMaterial();
+  pg3D.rotateY(frameCount * 0.01);
+  pg3D.box(100);
 }
 
 function konfidenz(){
