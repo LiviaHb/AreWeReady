@@ -34,13 +34,15 @@ function preload() {
   regularFont = loadFont('assets/Zodiak-Regular.otf');
   pFont = loadFont('assets/PlusJakartaSans-Regular.ttf');
   c1font = loadFont('assets/ClashDisplay-Bold.otf');
+  c2font = loadFont('assets/PlusJakartaSans-SemiBoldItalic.ttf');
+  c3font = loadFont('assets/AzeretMono-ExtraLightItalic.ttf');
  
   img1 = loadImage("assets/skizze.png"); //sketch load
 }
 
 function setup() {
   createCanvas(1080, 1920);
-  shuffleFonts = [pFont, c1font, lightFont, regularFont];
+  shuffleFonts = [pFont, c1font, lightFont, c2font, c3font, regularFont];
 }
 
 
@@ -52,8 +54,18 @@ function draw() {
   worldMY = (mouseY - offsetY) / sf;
 
   // Zoom und Pan anwenden
+
+
+  if (sf >= 1) {
   translate(offsetX, offsetY);
   scale(sf);
+  print(offsetX, offsetY, sf);
+  } else{
+    sf = 1;
+    offsetX = 0;
+    offsetY = 0;
+  }
+
 
   //SKETCH IM HINTERGRUND
   push();
@@ -105,21 +117,27 @@ function draw() {
   pop();
   
   //PAN!!!!
-  if (mouseIsPressed) {
+  if (mouseIsPressed && sf > 1) {
+    if(offsetX < 0 && offsetX > width - width*sf){
     offsetX -= pmouseX - mouseX;
-    offsetY -= pmouseY - mouseY;
+  }else{
+    offsetX -= pmouseX - mouseX;
   }
+    offsetY -= pmouseY - mouseY;
+  } 
  
 
 }
 
 //ZOOM!!!!
 function mouseWheel(event) {
+  
   let zoom = event.delta > 0 ? 0.8 : 1.1;
   offsetX = mouseX - (mouseX - offsetX) * zoom;
   offsetY = mouseY - (mouseY - offsetY) * zoom;
   sf *= zoom;
   return false;
+  
 }
 
 function doubleClicked() {
@@ -425,17 +443,16 @@ function title() {
   push();
   translate(30, 170 + sin(t + 0.5) * 5);
   
-  let cycle = frameCount % 300; 
+  let cycle = frameCount % 280; 
   let currentFont = boldFont; // Standardmäßig Bold
 
   // Wechsel-Phase: Alle 2,5 Sekunden für einen kurzen Moment
   if (cycle > 240 && shuffleFonts.length > 0) {
     // Wir nehmen die Zeit (frameCount) um durch das Array zu springen
-    let index = floor(frameCount / 12) % shuffleFonts.length;
+    let index = floor(frameCount / 8) % shuffleFonts.length;
     currentFont = shuffleFonts[index];
     
     fill("#0101FF");
-    //translate(random(-2, 2), random(-1, 1)); // Der Glitch-Effekt
   } else {
     fill("#0101FF");
     currentFont = boldFont;
@@ -480,12 +497,12 @@ function kitoolsText(){
 
     if (sf > maxZoom) {
 
-      text('Seit 2022 wurde über 15 Milliarden Bilder mit KI erstellt. Jeden Tag kommen Millionen neue Bilder hinzu, sodass KI in kürzester Zeit mehr Inhalte produziert als früher Menschen in Jahrzehnten.Insgesamt wächst die Bildproduktion durch KI rapide an und dominiert den Markt immer stärker.', 30, 800, 600);
+      text('Seit 2022 wurde über 15 Milliarden Bilder mit KI erstellt. Jeden Tag kommen Millionen neue Bilder hinzu, sodass KI in kürzester Zeit mehr Inhalte produziert als früher Menschen in Jahrzehnten.Insgesamt wächst die Bildproduktion durch KI rapide an und dominiert den Markt immer stärker.', 30, 1200, 900);
       fill("#0101FF");
-      text("Urheberrecht und “Nightshade”", 30, 1200, 350);
+      text("Urheberrecht und “Nightshade”", 30, 1480, 900);
       fill("black");
 
-      text("KI-Modelle werden häufig mit Bildern aus dem Internet trainiert, meist ohne die Zustimmung der Urheber:innen. Dadurch entsteht ein Urheberrechtsproblem, da Künstler:innen weder gefragt noch bezahlt werden. Als Reaktion darauf wurden Tools wie Nightshade entwickelt, die versuchen, sich gegen diese Nutzung zu wehren. ", 30, 1300, 600);
+      text("KI-Modelle werden häufig mit Bildern aus dem Internet trainiert, meist ohne die Zustimmung der Urheber:innen. Dadurch entsteht ein Urheberrechtsproblem, da Künstler:innen weder gefragt noch bezahlt werden. Als Reaktion darauf wurden Tools wie Nightshade entwickelt, die versuchen, sich gegen diese Nutzung zu wehren. ", 30, 1520, 900);
 
 
  }
