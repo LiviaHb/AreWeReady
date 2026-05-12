@@ -49,6 +49,7 @@ function preload() {
  
   img1 = loadImage("assets/skizze.png"); //sketch load
 
+  myModel = loadModel('assets/teapot.obj', true); //3D model load 
   
 }
 
@@ -56,12 +57,7 @@ function setup() {
   createCanvas(1080, 1920);
   shuffleFonts = [pFont, c1font, lightFont, c2font, c3font, regularFont];
 
-  //3D MODEL LOAD
   pg3D = createGraphics(400, 400, WEBGL);
-  myModel = loadModel('assets/meshimesh.obj', false, 
-  () => { console.log('success') }, 
-  (err) => { console.log('error:', err) }
-);
 
 }
 
@@ -92,10 +88,12 @@ function draw() {
 
 
 
-  //3D MODEL
+  push();
+  scale(3);
   draw3D();
-  image(pg3D, 400, 400);
-  pg3D.scale(1);
+  image(pg3D, 0, 0);
+  pop();
+  
 
   //TITEL ARE WE READY
   push();
@@ -215,11 +213,20 @@ function zoomToTarget(targetX, targetY, targetScale) {
 
 
 function draw3D() {
+ 
   pg3D.clear();
-  pg3D.background(255, 0, 0);
-  pg3D.normalMaterial();
-  pg3D.rotateY(frameCount * 0.01);
-  pg3D.box(100);
+
+  pg3D.ambientLight(200);
+  pg3D.directionalLight(255, 255, 255, 0.5, 1, -1);
+
+  pg3D.noStroke(); //mesh stroke entfernen (schwarz)
+  pg3D.fill(50);
+
+  pg3D.rotateY(sin(frameCount * 0.001) * 0.05);
+  
+  
+  pg3D.model(myModel);
+  
 }
 
 function konfidenz(){
