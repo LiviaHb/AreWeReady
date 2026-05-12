@@ -49,7 +49,7 @@ function preload() {
  
   img1 = loadImage("assets/skizze.png"); //sketch load
 
-  myModel = loadModel('assets/teapot.obj', true); //3D model load 
+  myModel = loadModel('assets/büsti.obj', true); //3D model load 
   
 }
 
@@ -57,7 +57,7 @@ function setup() {
   createCanvas(1080, 1920);
   shuffleFonts = [pFont, c1font, lightFont, c2font, c3font, regularFont];
 
-  pg3D = createGraphics(400, 400, WEBGL);
+  pg3D = createGraphics(1920, 1920, WEBGL);
 
 }
 
@@ -89,9 +89,8 @@ function draw() {
 
 
   push();
-  scale(3);
   draw3D();
-  image(pg3D, 0, 0);
+  image(pg3D, -450, 0, 1920, 1920);
   pop();
   
 
@@ -214,18 +213,27 @@ function zoomToTarget(targetX, targetY, targetScale) {
 
 function draw3D() {
  
+  
   pg3D.clear();
+  pg3D.push();
+  pg3D.perspective(PI / 6, 1, 0.001, 10000);
+  pg3D.camera(0, 0, 620,
+              0, 0, 0,
+              0, 1, 0);
+
 
   pg3D.ambientLight(200);
   pg3D.directionalLight(255, 255, 255, 0.5, 1, -1);
 
   pg3D.noStroke(); //mesh stroke entfernen (schwarz)
-  pg3D.fill(50);
+  pg3D.fill(150);
 
-  pg3D.rotateY(sin(frameCount * 0.001) * 0.05);
+  pg3D.rotateY(frameCount * 0.01);
   
   
+  pg3D.scale(1, -1, 1);
   pg3D.model(myModel);
+  pg3D.pop();
   
 }
 
