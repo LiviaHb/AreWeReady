@@ -58,6 +58,7 @@ function setup() {
   shuffleFonts = [pFont, c1font, lightFont, c2font, c3font, regularFont];
 
   pg3D = createGraphics(1920, 1920, WEBGL);
+  pg3D.smooth();
 
 }
 
@@ -216,18 +217,25 @@ function draw3D() {
   
   pg3D.clear();
   pg3D.push();
-  pg3D.perspective(PI / 6, 1, 0.001, 10000);
+  pg3D.perspective(PI / 4, 1, 1, 10000); // try higher near values like 1, 5, 10
   pg3D.camera(0, 0, 620,
               0, 0, 0,
               0, 1, 0);
 
 
+  //material
+  pg3D.specularMaterial(0,0,100);
+  pg3D.shininess(50);
+
+
   pg3D.ambientLight(200);
   pg3D.directionalLight(255, 255, 255, 0.5, 1, -1);
 
-  pg3D.noStroke(); //mesh stroke entfernen (schwarz)
-  pg3D.fill(150);
 
+  pg3D.noStroke(); //mesh stroke entfernen (schwarz)
+  pg3D.fill(100);
+
+  //animation
   pg3D.rotateY(frameCount * 0.01);
   
   
@@ -420,12 +428,12 @@ function reddit(){
   
   if (sf > maxZoom) {
 
-    text('Eine Studie zu Reddit zeigt, dass etwa 15 Prozent der Beiträge von KI erstellt wurden, was einen leichten Anstieg im Vergleich zum Vorjahr darstellt. Dennoch stammt der Großteil der Inhalte weiterhin von echten Nutzer:innen. Gleichzeitig nimmt der Einsatz von KI in Online-Diskussionen zunehmend zu, wodurch Inhalte schrittweise beeinflusst werden und echte Diskussionen, besonders in großen oder thematischen Communities, an Klarheit verlieren können.', 30, 630, 600);
+    text('Eine Studie zu Reddit zeigt, dass etwa 15 Prozent der Beiträge von KI erstellt wurden, was einen leichten Anstieg im Vergleich zum Vorjahr darstellt. Dennoch stammt der Großteil der Inhalte weiterhin von echten Nutzer:innen. Gleichzeitig nimmt der Einsatz von KI in Online-Diskussionen zunehmend zu, wodurch Inhalte schrittweise beeinflusst werden und echte Diskussionen, besonders in großen oder thematischen Communitys, an Klarheit verlieren können.', 30, 630, 600);
     fill("#0101FF");
     text("“AI Slop” auf Social Media", 30, 950, 350);
     fill("black");
 
-    text("Der Begriff “AI-Slop”bezeichnet billige, qualitativ schwache KI-Inhalte, Plattformen überschwemmen. Nutzer:innen sehen diese Inhalte oft als “digitalen Müll”, der den Online-Diskurs verschlechtert. ", 30, 980, 600);
+    text("Der Begriff „AI-Slop” bezeichnet billige, qualitativ schwache KI-Inhalte, Plattformen überschwemmen. Nutzer:innen sehen diese Inhalte oft als „digitalen Müll“, der den Online-Diskurs verschlechtert. ", 30, 980, 600);
 
 
  }
