@@ -45,7 +45,7 @@ function preload() {
   boldFont = loadFont('assets/Zodiak-Bold.otf');
   regularFont = loadFont('assets/Zodiak-Regular.otf');
   pFont = loadFont('assets/PlusJakartaSans-Regular.ttf');
-  boldFont = loadFont('assets/PlusJakartaSans-Bold.ttf');
+  bFont = loadFont('assets/PlusJakartaSans-Bold.ttf');
   c1font = loadFont('assets/ClashDisplay-Bold.otf');
   c2font = loadFont('assets/PlusJakartaSans-SemiBoldItalic.ttf');
   c3font = loadFont('assets/AzeretMono-ExtraLightItalic.ttf');
@@ -70,7 +70,6 @@ function setup() {
 function draw() {
  background(255);
 
-  /*
 
   sf = lerp(sf, targetSf, EASE);
   offsetX = lerp(offsetX, targetOffsetX, EASE);
@@ -113,16 +112,14 @@ function draw() {
   scale(0.7);
   bigNumber();
   pop();
-  */
-
 
   //stock
   push();
-  //translate(820, 100);
-  //scale(0.3);
+  translate(675, 40);
+  scale(0.3);
   stock();
   pop();
-/* 
+
   //Reddit
   push();
   translate(820, 1170);
@@ -165,7 +162,6 @@ function draw() {
 
   } 
  
- */
 
 
 }
@@ -219,6 +215,12 @@ function doubleClicked() {
     zoomToTarget(70 + 100, 1550 + 200, maxZoom+0.1); //Zoomt auf die Mitte von KI-Tools
   }
 
+      //"Stock" Bereich
+  // Stock liegt bei x=675, y=40. KLickbox 400x200
+  if (worldMX > 675 && worldMX < 675 + 400 && worldMY > 40 && worldMY < 40 + 200) {
+    zoomToTarget(675 + 200, 40 + 100, maxZoom+0.1); //Zoomt auf die Mitte von Stock
+  }
+
 }
 
 function zoomToTarget(targetX, targetY, targetScale) {
@@ -263,6 +265,43 @@ function draw3D() {
 
 function stock(){
 
+  textFont(lightFont);
+  textSize(60);
+  text('Stock Webseiten', 0, 250);
+
+  textFont(boldFont);
+  textSize(bigNumberSize);
+  fill("#0101FF");
+  text("313", 680, 300);
+  textSize(60);
+  text("Mio.", 920, 300);
+  textFont(pFont);
+  textSize(34);
+  fill("black");
+  textWrap(WORD);
+  fill("#A7A7A7");
+  text('KI-Generierte Bilder gab es April 2025 auf Adobe Stock.', 680, 350, 350);
+
+
+    if (sf > maxZoom) {
+
+    text('Seit 2022 wurden rund 15 Milliarden Bilder durch KI generiert. Diese Menge übersteigt klassische Bildquellen wie Shutterstock deutlich und liegt um ein Vielfaches über der Bildproduktion eines Menschenlebens.', 20, 750, 900);
+
+    text("Deshalb verändert sich die visuelle Online-Umgebung grundlegend, da KI-generierte Inhalte zunehmend den digitalen Bildraum prägen und die Unterscheidung zwischen echten und künstlichen Bildern erschweren.", 20, 1000, 900);
+
+
+    text("Das kann langfristig dazu führen, dass visuelle Inhalte zunehmend an Glaubwürdigkeit als Informationsquelle verlieren.", 20, 1200, 900);
+
+ } 
+  push();
+  translate(20, -800);
+  scale(0.8);
+  stockDIA();
+  pop();
+}
+
+function stockDIA(){
+
   let spalte1StockAI = tableAI.getColumn("Spalte1").map(Number);
   let namenStockAI = tableAI.getColumn("namen");
   let spalte1StockReal = tableReal.getColumn("Spalte1").map(Number);
@@ -272,7 +311,7 @@ function stock(){
   let startX = margin;
   let startY = height - margin;
 
-  let chartWidth = width - margin * 3;
+  let chartWidth = width - margin * 3.5;
   let chartHeight = height - margin * 13;
 
   let minVal = min(spalte1StockAI);
@@ -290,6 +329,10 @@ function stock(){
   }
   endShape();
 
+  function setLineDash(list) {
+  drawingContext.setLineDash(list);
+}
+
   stroke("#000000");
   beginShape();
   for (let i = 0; i < spalte1StockReal.length; i++) {
@@ -301,7 +344,8 @@ function stock(){
   stroke("#1e1e1e");
   strokeWeight(0.5);
   line(startX, startY, startX + chartWidth, startY);
-  stroke("#919191");
+  setLineDash([10, 10]); //longer stitches
+  stroke("#A7A7A7");
   line(startX, startY-100, startX + chartWidth, startY-100);
   line(startX, startY-200, startX + chartWidth, startY-200);
   line(startX, startY-300, startX + chartWidth, startY-300);
@@ -309,7 +353,7 @@ function stock(){
   //line(startX, startY, startX, startY - chartHeight);
 
   // LABELS
-  textFont(boldFont);
+  textFont(bFont);
   textSize(30);
 
   for (let i = 0; i < spalte1StockAI.length; i++) {
@@ -328,7 +372,7 @@ function stock(){
   noStroke();
   textAlign(RIGHT, CENTER);
   for (let i = 1; i <= 4; i++) {
-    text(i * 100, startX - 20, startY - i * 100 - 13);
+    text(i * 100 + " Mio.", startX - 20, startY - i * 100 - 13);
   }
 
 }
