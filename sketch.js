@@ -45,6 +45,7 @@ function preload() {
   boldFont = loadFont('assets/Zodiak-Bold.otf');
   regularFont = loadFont('assets/Zodiak-Regular.otf');
   pFont = loadFont('assets/PlusJakartaSans-Regular.ttf');
+  boldFont = loadFont('assets/PlusJakartaSans-Bold.ttf');
   c1font = loadFont('assets/ClashDisplay-Bold.otf');
   c2font = loadFont('assets/PlusJakartaSans-SemiBoldItalic.ttf');
   c3font = loadFont('assets/AzeretMono-ExtraLightItalic.ttf');
@@ -262,47 +263,74 @@ function draw3D() {
 
 function stock(){
 
-let spalte1 = tableAI.getColumn("Spalte1").map(Number);
-let namen = tableAI.getColumn("namen");
+  let spalte1StockAI = tableAI.getColumn("Spalte1").map(Number);
+  let namenStockAI = tableAI.getColumn("namen");
+  let spalte1StockReal = tableReal.getColumn("Spalte1").map(Number);
+  let namenStockReal = tableReal.getColumn("zahl");
 
-let margin = 100;
-let startX = margin;
-let startY = height - margin;
+  let margin = 124;
+  let startX = margin;
+  let startY = height - margin;
 
-let chartWidth = width - margin * 3;
-let chartHeight = height - margin * 13;
+  let chartWidth = width - margin * 3;
+  let chartHeight = height - margin * 13;
 
-let minVal = min(spalte1);
-let maxVal = max(spalte1);
+  let minVal = min(spalte1StockAI);
+  let maxVal = max(spalte1StockAI);
 
-// LINE
-stroke("#000000");
-strokeWeight(4);
-noFill();
-beginShape();
-for (let i = 0; i < spalte1.length; i++) {
-  let x = map(i, 0, spalte1.length - 1, startX, startX + chartWidth);
-  let y = map(spalte1[i], minVal, maxVal, startY, startY - chartHeight);
-  vertex(x, y);
-}
-endShape();
+  // LINE
+  stroke("#0101FF");
+  strokeWeight(5);
+  noFill();
+  beginShape();
+  for (let i = 0; i < spalte1StockAI.length; i++) {
+    let x = map(i, 0, spalte1StockAI.length - 1, startX, startX + chartWidth);
+    let y = map(spalte1StockAI[i], minVal, maxVal, startY, startY - chartHeight);
+    vertex(x, y);
+  }
+  endShape();
 
-// LABELS
-textFont(pFont);
-textSize(20);
+  stroke("#000000");
+  beginShape();
+  for (let i = 0; i < spalte1StockReal.length; i++) {
+    let x = map(i, 0, spalte1StockReal.length - 1, startX, startX + chartWidth);
+    let y = map(spalte1StockReal[i], minVal, maxVal, startY, startY - chartHeight);
+    vertex(x, y);
+  }
+  endShape();
+  stroke("#1e1e1e");
+  strokeWeight(0.5);
+  line(startX, startY, startX + chartWidth, startY);
+  stroke("#919191");
+  line(startX, startY-100, startX + chartWidth, startY-100);
+  line(startX, startY-200, startX + chartWidth, startY-200);
+  line(startX, startY-300, startX + chartWidth, startY-300);
+  line(startX, startY-400, startX + chartWidth, startY-400);
+  //line(startX, startY, startX, startY - chartHeight);
 
-for (let i = 0; i < spalte1.length; i++) {
-  let x = map(i, 0, spalte1.length - 1, startX, startX + chartWidth);
-  
-  fill("#A7A7A7");
+  // LABELS
+  textFont(boldFont);
+  textSize(30);
+
+  for (let i = 0; i < spalte1StockAI.length; i++) {
+    let x = map(i, 0, spalte1StockAI.length - 1, startX, startX + chartWidth);
+    
+    fill("#686868");
+    noStroke();
+    push();
+    translate(x - 15, startY + 15);
+    textAlign(LEFT, CENTER);
+    text(namenStockAI[i], 0, 15, 200);
+    pop();
+  }
+
+  fill("#686868");
   noStroke();
-  push();
-  translate(x - 15, startY + 15);
-  rotate(radians(90));
-  textAlign(LEFT, CENTER);
-  text(namen[i], 0, 15, 20);
-  pop();
-}
+  textAlign(RIGHT, CENTER);
+  for (let i = 1; i <= 4; i++) {
+    text(i * 100, startX - 20, startY - i * 100 - 13);
+  }
+
 }
 
 function konfidenz(){
