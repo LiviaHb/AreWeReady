@@ -38,6 +38,8 @@ let myModel;
 
 function preload() {
   table = loadTable("tabelle.csv", "csv", "header");
+  tableAI = loadTable("stockData_AI.csv", "csv", "header");
+  tableReal = loadTable("stockData_real.csv", "csv", "header");
 
   lightFont = loadFont('assets/Zodiak-Light.otf');
   boldFont = loadFont('assets/Zodiak-Bold.otf');
@@ -66,6 +68,8 @@ function setup() {
 
 function draw() {
  background(255);
+
+  /*
 
   sf = lerp(sf, targetSf, EASE);
   offsetX = lerp(offsetX, targetOffsetX, EASE);
@@ -108,7 +112,16 @@ function draw() {
   scale(0.7);
   bigNumber();
   pop();
+  */
 
+
+  //stock
+  push();
+  //translate(820, 100);
+  //scale(0.3);
+  stock();
+  pop();
+/* 
   //Reddit
   push();
   translate(820, 1170);
@@ -151,6 +164,8 @@ function draw() {
 
   } 
  
+ */
+
 
 }
 
@@ -224,7 +239,7 @@ function draw3D() {
 
 
   //material
-  pg3D.specularMaterial(0,0,100);
+  pg3D.specularMaterial(0,0,0);
   pg3D.shininess(50);
 
 
@@ -233,16 +248,61 @@ function draw3D() {
 
 
   pg3D.noStroke(); //mesh stroke entfernen (schwarz)
-  pg3D.fill(100);
+  pg3D.fill(180);
 
   //animation
   pg3D.rotateY(frameCount * 0.01);
-  
-  
-  pg3D.scale(1, -1, 1);
+
+  pg3D.scale(1.5, -1.5, 1.5);
   pg3D.model(myModel);
+
   pg3D.pop();
   
+}
+
+function stock(){
+
+let spalte1 = tableAI.getColumn("Spalte1").map(Number);
+let namen = tableAI.getColumn("namen");
+
+let margin = 100;
+let startX = margin;
+let startY = height - margin;
+
+let chartWidth = width - margin * 3;
+let chartHeight = height - margin * 13;
+
+let minVal = min(spalte1);
+let maxVal = max(spalte1);
+
+// LINE
+stroke("#000000");
+strokeWeight(4);
+noFill();
+beginShape();
+for (let i = 0; i < spalte1.length; i++) {
+  let x = map(i, 0, spalte1.length - 1, startX, startX + chartWidth);
+  let y = map(spalte1[i], minVal, maxVal, startY, startY - chartHeight);
+  vertex(x, y);
+}
+endShape();
+
+// LABELS
+textFont(pFont);
+textSize(20);
+
+for (let i = 0; i < spalte1.length; i++) {
+  let x = map(i, 0, spalte1.length - 1, startX, startX + chartWidth);
+  
+  fill("#A7A7A7");
+  noStroke();
+  push();
+  translate(x - 15, startY + 15);
+  rotate(radians(90));
+  textAlign(LEFT, CENTER);
+  text(namen[i], 0, 15, 20);
+  pop();
+}
 }
 
 function konfidenz(){
