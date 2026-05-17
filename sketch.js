@@ -139,7 +139,7 @@ function draw() {
 
   //Masse im Vergleich
   push();
-  translate(630, 1630);
+  translate(840, 1500);
   scale(0.3);
   masseImVergleich();
   pop();
@@ -204,9 +204,9 @@ function doubleClicked() {
   }
 
     //"Masse im Vergleich" Bereich
-  // Masse im Vergleich liegt bei x=650, y=1650. KLickbox 400x200
-  if (worldMX > 650 && worldMX < 650 + 400 && worldMY > 1650 && worldMY < 1650 + 200) {
-    zoomToTarget(650 + 200, 1650 + 100, maxZoom+0.1); //Zoomt auf die Mitte von Masse im Vergleich
+  // Masse im Vergleich liegt bei x=850, y=1550. KLickbox 200x400
+  if (worldMX > 850 && worldMX < 850 + 200 && worldMY > 1550 && worldMY < 1550 + 400) {
+    zoomToTarget(850 + 90, 1550 + 230, maxZoom+0.1); //Zoomt auf die Mitte von Masse im Vergleich
   }
 
     //"KI-Tools" Bereich
@@ -556,6 +556,10 @@ function masseImVergleich(){
   textSize(60);
   text('Masse im Vergleich', 0, 250);
 
+  push();
+
+  translate(-640, 540);
+
   textFont(boldFont);
   textSize(bigNumberSize);
   fill("#0101FF");
@@ -581,21 +585,28 @@ function masseImVergleich(){
   textFont(boldFont);
   textSize(bigNumberSize);
   fill("#0101FF");
-  text("23.000", 650, 570);
+  text("23.000", 650, 550);
   textFont(pFont);
   textSize(34);
   fill("black");
   textWrap(WORD);
-  text('-fache aller Fotos, die ein Mensch in seinem Leben gemacht hat', 650, 620, 600);
+  text('-fache aller Fotos, die ein Mensch in seinem Leben gemacht hat', 650, 600, 600);
+  pop();
+
+
+  textFont(pFont);
+  textSize(23);
+  fill("black");
+  textWrap(WORD);
 
      if (sf > maxZoom) {
 
-    text('Seit 2022 wurden rund 15 Milliarden Bilder durch KI generiert. Diese Menge übersteigt klassische Bildquellen wie Shutterstock deutlich und liegt um ein Vielfaches über der Bildproduktion eines Menschenlebens.', 20, 750, 900);
+    text('Seit 2022 wurden rund 15 Milliarden Bilder durch KI generiert. Diese Menge übersteigt klassische Bildquellen wie Shutterstock deutlich und liegt um ein Vielfaches über der Bildproduktion eines Menschenlebens.', 10, 1270, 650);
 
-    text("Deshalb verändert sich die visuelle Online-Umgebung grundlegend, da KI-generierte Inhalte zunehmend den digitalen Bildraum prägen und die Unterscheidung zwischen echten und künstlichen Bildern erschweren.", 20, 1000, 900);
+    text("Deshalb verändert sich die visuelle Online-Umgebung grundlegend, da KI-generierte Inhalte zunehmend den digitalen Bildraum prägen und die Unterscheidung zwischen echten und künstlichen Bildern erschweren.", 10, 1400, 650);
 
 
-    text("Das kann langfristig dazu führen, dass visuelle Inhalte zunehmend an Glaubwürdigkeit als Informationsquelle verlieren.", 20, 1200, 900);
+    text("Das kann langfristig dazu führen, dass visuelle Inhalte zunehmend an Glaubwürdigkeit als Informationsquelle verlieren.", 10, 1550, 650);
 
 
  }
