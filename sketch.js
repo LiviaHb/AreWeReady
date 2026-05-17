@@ -119,7 +119,7 @@ function draw() {
   //stock
   push();
   translate(675, 40);
-  scale(0.3);
+  scale(0.28);
   stock();
   pop();
 
@@ -132,7 +132,7 @@ function draw() {
 
   //Konfidenz
   push();
-  translate(870, 350);
+  translate(870, 550); 
   scale(0.3);
   konfidenz();
   pop();
@@ -164,7 +164,7 @@ function draw() {
   offsetX -= pmouseX - mouseX;
   offsetY -= pmouseY - mouseY;
 
-  offsetX = constrain(offsetX, width - width * sf - 200, 200);
+  offsetX = constrain(offsetX, width - width * sf - 300, 200);
   offsetY = constrain(offsetY, height - height * sf - 500, 200);
 
   targetOffsetX = offsetX;
@@ -198,9 +198,9 @@ function doubleClicked() {
   }
   
   //"Konfidenz" Bereich
-  // Konfidenz liegt bei x=830, y=350. KLickbox 200x400
-  if (worldMX > 830 && worldMX < 830 + 200 && worldMY > 350 && worldMY < 350 + 400) {
-    zoomToTarget(830 + 100, 350 + 200, maxZoom+0.1); //Zoomt auf die Mitte von Konfidenz
+  // Konfidenz liegt bei x=830, y=520. KLickbox 200x400
+  if (worldMX > 830 && worldMX < 830 + 200 && worldMY > 520 && worldMY < 520 + 400) {
+    zoomToTarget(880 + 100, 520 + 200, maxZoom+0.1); //Zoomt auf die Mitte von Konfidenz
   }
 
     //"Masse im Vergleich" Bereich
@@ -212,13 +212,13 @@ function doubleClicked() {
     //"KI-Tools" Bereich
   // KI-Tools liegt bei x=70, y=1550. KLickbox 200x400
   if (worldMX > 70 && worldMX < 70 + 200 && worldMY > 1550 && worldMY < 1550 + 400) {
-    zoomToTarget(70 + 100, 1550 + 200, maxZoom+0.1); //Zoomt auf die Mitte von KI-Tools
+    zoomToTarget(70 + 135, 1550 + 260, maxZoom+0.1); //Zoomt auf die Mitte von KI-Tools
   }
 
       //"Stock" Bereich
   // Stock liegt bei x=675, y=40. KLickbox 400x200
   if (worldMX > 675 && worldMX < 675 + 400 && worldMY > 40 && worldMY < 40 + 200) {
-    zoomToTarget(675 + 200, 40 + 100, maxZoom+0.1); //Zoomt auf die Mitte von Stock
+    zoomToTarget(675 + 142, 40 + 250, maxZoom+0.1); //Zoomt auf die Mitte von Stock
   }
 
       //"quiz" Bereich
@@ -245,8 +245,8 @@ function mousePressed() {
 
 function mouseReleased() {
   if (holding && millis() - holdStart >= holdThreshold) {
-    // held long enough — do your thing here
-    console.log('held on quiz!');
+    console.log('quiz gehalten!');
+
   }
   holding = false;
 }
@@ -330,16 +330,18 @@ function quiz(){
   text('you', 0, -10);
   pop();
 
-
- 
-  push();
-  if (holding == true){
-    tint(255,200);
-    image(qrCode, -380, -120, 520, 520);
-  }else{
-    image(qrCode, -380, -120, 520, 520);
-  }
   
+if (holding == true) {
+  let elapsed = millis() - holdStart;
+  let alpha = map(elapsed, 0, holdThreshold, 0, 255);
+  tint(255, alpha); 
+  image(qrCode, -380, -120, 520, 520);
+} else {
+  noTint();
+  image(qrCode, -380, -120, 520, 520);
+}
+
+  push();
   translate(30, 230 + sin(t + 1) * 5);
   textFont(lightFont);
   textSize(60);
@@ -365,24 +367,28 @@ function stock(){
   textFont(boldFont);
   textSize(bigNumberSize);
   fill("#0101FF");
-  text("313", 680, 300);
+  text("313", 630, 300);
   textSize(60);
-  text("Mio.", 920, 300);
+  text("Mio.", 870, 300);
   textFont(pFont);
   textSize(34);
   fill("black");
   textWrap(WORD);
   fill("#A7A7A7");
-  text('KI-Generierte Bilder gab es April 2025 auf Adobe Stock.', 680, 350, 350);
+  text('KI-Generierte Bilder gab es April 2025 auf Adobe Stock.', 630, 350, 350);
 
+  textFont(pFont);
+  textSize(23);
+  fill("black");
+  textWrap(WORD);
 
     if (sf > maxZoom) {
 
-    text('Seit 2022 wurden rund 15 Milliarden Bilder durch KI generiert. Diese Menge übersteigt klassische Bildquellen wie Shutterstock deutlich und liegt um ein Vielfaches über der Bildproduktion eines Menschenlebens.', 20, 750, 900);
+    text('Seit 2022 wurden rund 15 Milliarden Bilder durch KI generiert. Diese Menge übersteigt klassische Bildquellen wie Shutterstock deutlich und liegt um ein Vielfaches über der Bildproduktion eines Menschenlebens.', 100, 800, 700);
 
-    text("Deshalb verändert sich die visuelle Online-Umgebung grundlegend, da KI-generierte Inhalte zunehmend den digitalen Bildraum prägen und die Unterscheidung zwischen echten und künstlichen Bildern erschweren.", 20, 1000, 900);
+    text("Deshalb verändert sich die visuelle Online-Umgebung grundlegend, da KI-generierte Inhalte zunehmend den digitalen Bildraum prägen und die Unterscheidung zwischen echten und künstlichen Bildern erschweren.", 100, 950, 700);
 
-    text("Das kann langfristig dazu führen, dass visuelle Inhalte zunehmend an Glaubwürdigkeit als Informationsquelle verlieren.", 20, 1200, 900);
+    text("Das kann langfristig dazu führen, dass visuelle Inhalte zunehmend an Glaubwürdigkeit als Informationsquelle verlieren.", 100, 1100, 700);
 
  } 
   push();
@@ -403,7 +409,7 @@ function stockDIA(){
   let startX = margin;
   let startY = height - margin;
 
-  let chartWidth = width - margin * 3.5;
+  let chartWidth = width - margin * 4;
   let chartHeight = height - margin * 13;
 
   let minVal = min(spalte1StockAI);
@@ -503,7 +509,9 @@ function konfidenz(){
 
   if (sf > maxZoom) {
 
-    text("Die meisten Menschen können echte und KI-generierte Bilder nicht zuverlässig unterscheiden. Ihre Einschätzungen liegen oft kaum über dem Zufallsniveau, obwohl viele Menschen glauben, echte von KI-generierten Bildern unterscheiden zu können.Dadurch sinkt das Vertrauen in die eigene Fähigkeit, KI-Inhalte zu erkennen.Gleichzeitig fühlt sich weniger als die Hälfte der Nutzer:innen im Umgang mit solchen Inhalten auf Social Media sicher. Deshalb wünschen sich viele Nutzer:innen klarere Kennzeichnungen für KI-generierten Content. ", 500, 400, 350);
+    text("Die meisten Menschen können echte und KI-generierte Bilder nicht zuverlässig unterscheiden. Ihre Einschätzungen liegen oft kaum über dem Zufallsniveau, obwohl viele Menschen glauben, echte von KI-generierten Bildern unterscheiden zu können.Dadurch sinkt das Vertrauen in die eigene Fähigkeit, KI-Inhalte zu erkennen.", 460, 440, 350);
+
+    text("Gleichzeitig fühlt sich weniger als die Hälfte der Nutzer:innen im Umgang mit solchen Inhalten auf Social Media sicher. Deshalb wünschen sich viele Nutzer:innen klarere Kennzeichnungen für KI-generierten Content. ", 460, 830, 350);
 
   }
 
@@ -798,14 +806,20 @@ function kitoolsText(){
   text('KI-Generierte Bilder pro Minute in 2024.', 30, 400, 340);
   line(700, 260, 700, 700);
 
+  textFont(pFont);
+  textSize(23);
+  fill("black");
+  textWrap(WORD);
+
+
     if (sf > maxZoom) {
 
-      text('Seit 2022 wurde über 15 Milliarden Bilder mit KI erstellt. Jeden Tag kommen Millionen neue Bilder hinzu, sodass KI in kürzester Zeit mehr Inhalte produziert als früher Menschen in Jahrzehnten.Insgesamt wächst die Bildproduktion durch KI rapide an und dominiert den Markt immer stärker.', 30, 1200, 900);
+      text('Seit 2022 wurde über 15 Milliarden Bilder mit KI erstellt. Jeden Tag kommen Millionen neue Bilder hinzu, sodass KI in kürzester Zeit mehr Inhalte produziert als früher Menschen in Jahrzehnten.Insgesamt wächst die Bildproduktion durch KI rapide an und dominiert den Markt immer stärker.', 30, 1200, 800);
       fill("#0101FF");
-      text("Urheberrecht und “Nightshade”", 30, 1480, 900);
+      text("Urheberrecht und “Nightshade”", 30, 1380, 900);
       fill("black");
 
-      text("KI-Modelle werden häufig mit Bildern aus dem Internet trainiert, meist ohne die Zustimmung der Urheber:innen. Dadurch entsteht ein Urheberrechtsproblem, da Künstler:innen weder gefragt noch bezahlt werden. Als Reaktion darauf wurden Tools wie Nightshade entwickelt, die versuchen, sich gegen diese Nutzung zu wehren. ", 30, 1520, 900);
+      text("KI-Modelle werden häufig mit Bildern aus dem Internet trainiert, meist ohne die Zustimmung der Urheber:innen. Dadurch entsteht ein Urheberrechtsproblem, da Künstler:innen weder gefragt noch bezahlt werden. Als Reaktion darauf wurden Tools wie Nightshade entwickelt, die versuchen, sich gegen diese Nutzung zu wehren. ", 30, 1420, 800);
 
 
  }
