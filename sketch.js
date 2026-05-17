@@ -6,6 +6,7 @@ let boldFont;
 let regularFont;
 let pFont;
 let maxZoom = 3.5;
+let qrCode
 
 //BIG NUMBER SIZE
 let bigNumberSize = 140;
@@ -52,8 +53,10 @@ function preload() {
  
   img1 = loadImage("assets/skizze.png"); //sketch load
 
-  myModel = loadModel('assets/büsti.obj', true); //3D model load 
+  myModel = loadModel('assets/dataviz_bueste_reduziert.obj', true); //3D model load 
   
+  qrCode = loadImage("assets/QR-Code.png");
+
 }
 
 function setup() {
@@ -91,7 +94,7 @@ function draw() {
     offsetY = 0; targetOffsetY = 0;
   }
 
-
+  // DRAW ELEMENTE AUßEN /////////////////////////////////////
 
   push();
   draw3D();
@@ -147,6 +150,13 @@ function draw() {
   scale(0.3);
   kitoolsText();
   pop();
+
+  //QUIZ
+  push();
+  translate(300, -700);
+  scale(1.1);
+  quiz();
+  pop();
   
   //PAN!!!!
   if (mouseIsPressed && sf > 1) {
@@ -161,19 +171,11 @@ function draw() {
   targetOffsetY = offsetY;
 
   } 
- 
-
-
 }
 
 //ZOOM!!!!
 function mouseWheel(event) {
   
-/*   let zoom = event.delta > 0 ? 0.8 : 1.1;
-  offsetX = mouseX - (mouseX - offsetX) * zoom;
-  offsetY = mouseY - (mouseY - offsetY) * zoom;
-  sf *= zoom;
-  return false; */
 
   let zoom = event.delta > 0 ? 0.8 : 1.1;
 
@@ -182,8 +184,6 @@ function mouseWheel(event) {
   targetSf *= zoom;
 
   return false; 
-
-  
 }
 
 function doubleClicked() {
@@ -221,6 +221,34 @@ function doubleClicked() {
     zoomToTarget(675 + 200, 40 + 100, maxZoom+0.1); //Zoomt auf die Mitte von Stock
   }
 
+      //"quiz" Bereich
+  // Quiz liegt bei x=70, y=1250. KLickbox 400x200
+  if (worldMX > 40 && worldMX < 40 + 400 && worldMY > 1300 && worldMY < 1300 + 200) {
+    zoomToTarget(40 + 150, 1300 + 100, maxZoom+0.1); //Zoomt auf die Mitte von quiz
+  }
+
+}
+
+let holdStart = 0;
+let holdThreshold = 800;
+let holding = false;
+
+function mousePressed() {
+  worldMX = (mouseX - offsetX) / sf;
+  worldMY = (mouseY - offsetY) / sf;
+
+  if (worldMX > 40 && worldMX < 40 + 400 && worldMY > 1300 && worldMY < 1300 + 200) {
+    holdStart = millis();
+    holding = true;
+  }
+}
+
+function mouseReleased() {
+  if (holding && millis() - holdStart >= holdThreshold) {
+    // held long enough — do your thing here
+    console.log('held on quiz!');
+  }
+  holding = false;
 }
 
 function zoomToTarget(targetX, targetY, targetScale) {
@@ -232,10 +260,9 @@ function zoomToTarget(targetX, targetY, targetScale) {
 
 function draw3D() {
  
-  
   pg3D.clear();
   pg3D.push();
-  pg3D.perspective(PI / 4, 1, 1, 10000); // try higher near values like 1, 5, 10
+  pg3D.perspective(PI / 4, 1, 1, 10000);
   pg3D.camera(0, 0, 620,
               0, 0, 0,
               0, 1, 0);
@@ -263,6 +290,72 @@ function draw3D() {
   
 }
 
+
+// ELEMENTE AUßEN RUM //////////////////////////////////////////
+
+function quiz(){
+
+  let t = frameCount * 0.02; 
+  
+  
+  push();
+  translate(30, 80 + sin(t) * 5);
+  textFont(lightFont);
+  textSize(60);
+  fill(0);
+  text('Are', 0, 0);
+  pop();
+
+ 
+  push();
+  translate(30, 170 + sin(t + 0.5) * 5);
+  
+  let cycle = frameCount % 260; //280
+  let currentFont = boldFont; 
+
+  
+  if (cycle > 220 && shuffleFonts.length > 0) { //240
+  
+    let index = floor(frameCount / 6) % shuffleFonts.length; //8
+    currentFont = shuffleFonts[index];
+    
+    
+  } else {
+    
+    currentFont = boldFont;
+  }
+
+  textFont(currentFont);
+  textSize(110);
+  text('you', 0, -10);
+  pop();
+
+
+ 
+  push();
+  if (holding == true){
+    tint(255,200);
+    image(qrCode, -380, -120, 520, 520);
+  }else{
+    image(qrCode, -380, -120, 520, 520);
+  }
+  
+  translate(30, 230 + sin(t + 1) * 5);
+  textFont(lightFont);
+  textSize(60);
+  fill(0);
+  text('ready?', 0, 0);
+  pop();
+  
+  textSize(34);
+      if (sf > maxZoom) {
+
+    text('Halte den QR-Code gedrückt, um das Quiz zu starten! Oder Scanne ihn!', -230, 270, 510);
+ } 
+
+
+}
+
 function stock(){
 
   textFont(lightFont);
@@ -288,7 +381,6 @@ function stock(){
     text('Seit 2022 wurden rund 15 Milliarden Bilder durch KI generiert. Diese Menge übersteigt klassische Bildquellen wie Shutterstock deutlich und liegt um ein Vielfaches über der Bildproduktion eines Menschenlebens.', 20, 750, 900);
 
     text("Deshalb verändert sich die visuelle Online-Umgebung grundlegend, da KI-generierte Inhalte zunehmend den digitalen Bildraum prägen und die Unterscheidung zwischen echten und künstlichen Bildern erschweren.", 20, 1000, 900);
-
 
     text("Das kann langfristig dazu führen, dass visuelle Inhalte zunehmend an Glaubwürdigkeit als Informationsquelle verlieren.", 20, 1200, 900);
 
@@ -641,7 +733,7 @@ function title() {
  
   let t = frameCount * 0.02; 
   
-  // --- ZEILE 1: Are we ---
+  
   push();
   translate(30, 80 + sin(t) * 5);
   textFont(lightFont);
@@ -650,16 +742,16 @@ function title() {
   text('Are we', 0, 0);
   pop();
 
-  // --- ZEILE 2: ready (Der Font-Shuffle) ---
+ 
   push();
   translate(30, 170 + sin(t + 0.5) * 5);
   
   let cycle = frameCount % 280; 
-  let currentFont = boldFont; // Standardmäßig Bold
+  let currentFont = boldFont; 
 
-  // Wechsel-Phase: Alle 2,5 Sekunden für einen kurzen Moment
+  
   if (cycle > 240 && shuffleFonts.length > 0) {
-    // Wir nehmen die Zeit (frameCount) um durch das Array zu springen
+  
     let index = floor(frameCount / 8) % shuffleFonts.length;
     currentFont = shuffleFonts[index];
     
@@ -675,7 +767,7 @@ function title() {
   pop();
 
 
-  // --- ZEILE 3: for AI? ---
+ 
   push();
   translate(30, 230 + sin(t + 1) * 5);
   textFont(lightFont);
