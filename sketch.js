@@ -759,7 +759,7 @@ function title() {
 
  
   push();
-  translate(30, 230 + sin(t + 1) * 5);
+  translate(30, 235 + sin(t + 1) * 5);
   textFont(lightFont);
   textSize(60);
   fill(0);
