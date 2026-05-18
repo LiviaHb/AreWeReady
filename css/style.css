@@ -11,3 +11,10 @@ body {
     min-height: 100vh;
     background: #f0f0f0;
 }
+
+
+
+#divfix {
+       position: fixed;
+       z-index: 3000;
+}

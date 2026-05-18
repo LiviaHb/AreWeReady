@@ -53,7 +53,7 @@ function preload() {
  
   img1 = loadImage("assets/skizze.png"); //sketch load
 
-  myModel = loadModel('assets/dataviz_bueste_reduziert.obj', true); //3D model load 
+  myModel = loadModel('assets/bueste_dataviz.obj', true); //3D model load 
   
   qrCode = loadImage("assets/QR-Code.png");
 
@@ -195,38 +195,32 @@ function doubleClicked() {
   //Reddit liegt bei x=760, y=1170. KLickbox 300x400
   if (worldMX > 760 && worldMX < 760 + 300 && worldMY > 1170 && worldMY < 1170 + 400) {
     zoomToTarget(760 + 150, 1170 + 200, maxZoom+0.1); //Zoomt auf die Mitte von Reddit
-  }
+  }else if (worldMX > 830 && worldMX < 830 + 200 && worldMY > 520 && worldMY < 520 + 400) {
+    zoomToTarget(880 + 100, 520 + 200, maxZoom+0.1);  //"Konfidenz" Bereich
+    // Konfidenz liegt bei x=830, y=520. KLickbox 200x400 //Zoomt auf die Mitte von Konfidenz
+  }else if (worldMX > 850 && worldMX < 850 + 200 && worldMY > 1550 && worldMY < 1550 + 400) {
+    zoomToTarget(850 + 90, 1550 + 230, maxZoom+0.1); //Zoomt auf die Mitte von Masse im Vergleich     //"Masse im Vergleich" Bereich
+    // Masse im Vergleich liegt bei x=850, y=1550. KLickbox 200x400
+    
+
+  }else if (worldMX > 70 && worldMX < 70 + 200 && worldMY > 1550 && worldMY < 1550 + 400) {
+    zoomToTarget(70 + 135, 1550 + 260, maxZoom+0.1); //Zoomt auf die Mitte von KI-Tools    //"KI-Tools" Bereich
+    // KI-Tools liegt bei x=70, y=1550. KLickbox 200x400
+    
+  }else if (worldMX > 675 && worldMX < 675 + 400 && worldMY > 40 && worldMY < 40 + 200) {
+    zoomToTarget(675 + 142, 40 + 250, maxZoom+0.1); //Zoomt auf die Mitte von Stock       //"Stock" Bereich
+    // Stock liegt bei x=675, y=40. KLickbox 400x200
+  }else if (worldMX > 40 && worldMX < 40 + 400 && worldMY > 1300 && worldMY < 1300 + 200) {
+    zoomToTarget(40 + 150, 1300 + 100, maxZoom+0.1); //Zoomt auf die Mitte von quiz      //"quiz" Bereich
+    // Quiz liegt bei x=70, y=1250. KLickbox 400x200
+  }else {
+    
+    zoomToTarget(0,0,0);
   
-  //"Konfidenz" Bereich
-  // Konfidenz liegt bei x=830, y=520. KLickbox 200x400
-  if (worldMX > 830 && worldMX < 830 + 200 && worldMY > 520 && worldMY < 520 + 400) {
-    zoomToTarget(880 + 100, 520 + 200, maxZoom+0.1); //Zoomt auf die Mitte von Konfidenz
+  
   }
 
-    //"Masse im Vergleich" Bereich
-  // Masse im Vergleich liegt bei x=850, y=1550. KLickbox 200x400
-  if (worldMX > 850 && worldMX < 850 + 200 && worldMY > 1550 && worldMY < 1550 + 400) {
-    zoomToTarget(850 + 90, 1550 + 230, maxZoom+0.1); //Zoomt auf die Mitte von Masse im Vergleich
-  }
-
-    //"KI-Tools" Bereich
-  // KI-Tools liegt bei x=70, y=1550. KLickbox 200x400
-  if (worldMX > 70 && worldMX < 70 + 200 && worldMY > 1550 && worldMY < 1550 + 400) {
-    zoomToTarget(70 + 135, 1550 + 260, maxZoom+0.1); //Zoomt auf die Mitte von KI-Tools
-  }
-
-      //"Stock" Bereich
-  // Stock liegt bei x=675, y=40. KLickbox 400x200
-  if (worldMX > 675 && worldMX < 675 + 400 && worldMY > 40 && worldMY < 40 + 200) {
-    zoomToTarget(675 + 142, 40 + 250, maxZoom+0.1); //Zoomt auf die Mitte von Stock
-  }
-
-      //"quiz" Bereich
-  // Quiz liegt bei x=70, y=1250. KLickbox 400x200
-  if (worldMX > 40 && worldMX < 40 + 400 && worldMY > 1300 && worldMY < 1300 + 200) {
-    zoomToTarget(40 + 150, 1300 + 100, maxZoom+0.1); //Zoomt auf die Mitte von quiz
-  }
-
+  
 }
 
 
@@ -323,7 +317,7 @@ function quiz(){
   textSize(34);
       if (sf > maxZoom) {
 
-    text('Halte den QR-Code gedrückt, um das Quiz zu starten! Oder Scanne ihn!', -230, 270, 510);
+    text('Scanne den Qr-Code mit deinem Handy, um dich selber zu testen in einem Quiz!', -230, 270, 510);
  } 
 
 
