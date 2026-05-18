@@ -229,28 +229,6 @@ function doubleClicked() {
 
 }
 
-let holdStart = 0;
-let holdThreshold = 800;
-let holding = false;
-
-function mousePressed() {
-  worldMX = (mouseX - offsetX) / sf;
-  worldMY = (mouseY - offsetY) / sf;
-
-  if (worldMX > 40 && worldMX < 40 + 400 && worldMY > 1300 && worldMY < 1300 + 200) {
-    holdStart = millis();
-    holding = true;
-  }
-}
-
-function mouseReleased() {
-  if (holding && millis() - holdStart >= holdThreshold) {
-    console.log('quiz gehalten!');
-    window.location.href = '/quiz/index.html'; 
-
-  }
-  holding = false;
-}
 
 function zoomToTarget(targetX, targetY, targetScale) {
   targetSf = targetScale;
@@ -331,16 +309,8 @@ function quiz(){
   text('you', 0, -10);
   pop();
 
-  
-if (holding == true) {
-  let elapsed = millis() - holdStart;
-  let alpha = map(elapsed, 0, holdThreshold, 0, 255);
-  tint(255, alpha); 
+
   image(qrCode, -380, -120, 520, 520);
-} else {
-  noTint();
-  image(qrCode, -380, -120, 520, 520);
-}
 
   push();
   translate(30, 230 + sin(t + 1) * 5);
