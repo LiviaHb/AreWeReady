@@ -246,6 +246,7 @@ function mousePressed() {
 function mouseReleased() {
   if (holding && millis() - holdStart >= holdThreshold) {
     console.log('quiz gehalten!');
+    window.location.href = '/quiz/index.html'; 
 
   }
   holding = false;
