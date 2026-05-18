@@ -18,12 +18,12 @@ const PAIRS = [
   
   function getCorrectChoice(i) { return PAIRS[i].aiIsB ? "b" : "a"; }
   
-  const C_WHITE  = "#FFFFFF";
+  const C_WHITE  = "#FAF8F5";
   const C_BLACK  = "#111111";
   const C_BLUE   = "#0000EE";
   const C_LIGHT  = "#E8E8E8";
   const C_GREEN  = "#1DB954";
-  const C_RED    = "#FF6B6B";
+  const C_RED    = "#E8193C";
   const C_GREY   = "#999999";
   
   let imgs        = [];
@@ -31,21 +31,25 @@ const PAIRS = [
   let totalImgs;
   let pairIndex   = 0;
   let chosen      = null;
-  let phase       = "title";  // title | question | reveal | result
+  let phase       = "title";
   let score       = 0;
   let btnArea     = { x:0, y:0, w:0, h:0 };
   let imgAreas    = [];
   let pairOrder   = [];
   
-  // Animation
   let resultReveal  = 0;
+  let resultStarted = false;
+  let inputLocked   = false;
   
   let fThin, fBold, fBody;
+  
+  let imgBueste;
   
   function preload() {
     fThin = loadFont("Zodiak-Regular.otf");
     fBold = loadFont("Zodiak-Extrabold.otf");
     fBody = loadFont("PlusJakartaSans-VariableFont_wght.ttf");
+    imgBueste = loadImage("bueste-3.png");
     totalImgs = PAIRS.length * 2;
     for (let i = 0; i < PAIRS.length; i++) {
       imgs.push([
@@ -62,7 +66,6 @@ const PAIRS = [
     createCanvas(cw, ch);
     for (let i = 0; i < PAIRS.length; i++) pairOrder.push(random() > 0.5);
   
-    // Native touch
     let cnv = document.querySelector('canvas');
     cnv.addEventListener('touchend', function(e) {
       e.preventDefault();
@@ -79,16 +82,12 @@ const PAIRS = [
   function bold() { if (fBold) textFont(fBold); }
   function body() { if (fBody) textFont(fBody); }
   
-  // ─────────────────────────────────
   function draw() {
     background(C_WHITE);
     if (loadedCount < totalImgs) { drawLoading(); return; }
-  
     if      (phase === "title")                          drawTitle();
     else if (phase === "question" || phase === "reveal") drawQuiz();
     else if (phase === "result")                         drawResult();
-  
-  
   }
   
   // ── LOADING ──────────────────────
@@ -96,7 +95,7 @@ const PAIRS = [
     body();
     noStroke(); fill(C_GREY);
     textAlign(CENTER, CENTER); textSize(s(3.5));
-    text("Laden …", width/2, height/2);
+    text("Laden ...", width/2, height/2);
     let bw = width*0.5, bh = 1;
     let bx = (width-bw)/2, by = height/2 + s(5);
     stroke(C_LIGHT); strokeWeight(1); noFill(); rect(bx, by, bw, bh);
@@ -109,6 +108,17 @@ const PAIRS = [
     let y   = s(10);
     noStroke();
   
+    // Bueste im Hintergrund
+    if (imgBueste) {
+      let bh = height * 1.1;
+      let bw = bh * (imgBueste.width / imgBueste.height);
+      let bx = width / 2 - bw * 0.35;
+      let by = -height * 0.05;
+      tint(255, 60);
+      image(imgBueste, bx, by, bw, bh);
+      noTint();
+    }
+  
     thin(); fill(C_BLACK); textSize(s(12)); textAlign(LEFT, TOP);
     text("Are you", pad, y); y += s(13);
   
@@ -119,16 +129,20 @@ const PAIRS = [
     text("for AI?", pad, y); y += s(16);
   
     stroke(C_LIGHT); strokeWeight(1);
-    line(pad, y, width-pad, y); noStroke(); y += s(5);
+    line(pad, y, width-pad, y); noStroke(); y += s(6);
   
-    body(); fill(C_GREY); textSize(s(3.5)); textAlign(LEFT, TOP);
-    text("Kannst du sehen, welches Bild KI-generiert ist?\nWähle das Bild, das deiner Meinung nach\nkünstlich erstellt wurde.", pad, y, width-pad*2);
+    body(); fill(C_GREY); textSize(s(3.8)); textAlign(LEFT, TOP);
+    textLeading(s(6.5));
+    text("Kannst du sehen, welches Bild KI-generiert ist? W\u00e4hle das Bild, das deiner Meinung nach k\u00fcnstlich erstellt wurde.", pad, y, width-pad*2);
+    textLeading(s(5));
+    y += s(26);
   
-    drawOutlineBtn("Quiz starten →", height - s(8) - s(5));
+    drawBtn("Quiz starten \u2192", y);
   }
   
   // ── QUIZ ─────────────────────────
   function drawQuiz() {
+    let p   = PAIRS[pairIndex];
     let pad = s(5);
     let y   = s(3);
     noStroke();
@@ -159,21 +173,19 @@ const PAIRS = [
     }
     y += s(3.8);
   
-    // Bilder
     let normal   = pairOrder[pairIndex];
     let topIdx   = normal ? 0 : 1;
     let botIdx   = normal ? 1 : 0;
     let topAB    = normal ? "a" : "b";
     let botAB    = normal ? "b" : "a";
   
-    let reserve  = s(12); // fix: immer gleich, Bilder bewegen sich nicht
+    let reserve  = s(12);
     let gap      = s(2);
     let imgH     = (height - y - gap*3 - reserve) / 2;
     let imgW     = width - pad*2;
     let yTop     = y + gap;
     let yBot     = yTop + imgH + gap;
   
-    // Rahmenfarbe
     let topStroke = C_LIGHT, botStroke = C_LIGHT;
     let topSW = 1, botSW = 1;
     if (phase === "reveal") {
@@ -194,15 +206,14 @@ const PAIRS = [
     imgAreas.push({x:pad, y:yBot, w:imgW, h:imgH, ab:botAB});
   
     if (phase === "reveal") {
-      let label = pairIndex === PAIRS.length-1 ? "Ergebnis →" : "Weiter →";
-      drawFilledBtn(label, height - s(7) - s(2));
+      let label = pairIndex === PAIRS.length-1 ? "Ergebnis \u2192" : "Weiter \u2192";
+      drawBtn(label, height - s(7) - s(2));
     }
   }
   
   function drawImgCard(img, x, y, w, h, strokeCol, sw) {
     fill(0,0,0,8); noStroke(); rect(x+2, y+2, w, h, s(1.8));
   
-    // Glow wenn farbig
     if (sw > 1) {
       drawingContext.shadowColor = strokeCol;
       drawingContext.shadowBlur  = s(5);
@@ -228,14 +239,13 @@ const PAIRS = [
     let pad = s(7);
     let pct = score / PAIRS.length;
   
-    // Animierter Bogen
+    resultStarted = true;
     if (resultReveal < pct) {
       resultReveal = min(resultReveal + 0.015, pct);
     }
   
     noStroke();
   
-    // Titel – gleich wie Titelseite
     let y = s(10);
     thin(); fill(C_BLACK); textSize(s(12)); textAlign(LEFT, TOP);
     text("Are you", pad, y); y += s(13);
@@ -246,9 +256,8 @@ const PAIRS = [
     thin(); fill(C_BLACK); textSize(s(12));
     text("for AI?", pad, y);
   
-    // Score-Kreis
-    let cx = width/2, cy = height * 0.54;
-    let cr = s(28);
+    let cx = width/2, cy = height * 0.58;
+    let cr = s(26);
   
     stroke(C_LIGHT); strokeWeight(1); noFill();
     ellipse(cx, cy, cr*2);
@@ -263,8 +272,6 @@ const PAIRS = [
     fill(C_BLACK); textAlign(CENTER, CENTER); textSize(s(8));
     text(score + "/" + PAIRS.length, cx, cy - s(0.5));
   
-  
-  
     body();
     fill(C_GREY); textAlign(CENTER, TOP); textSize(s(3));
     text("richtig erkannt", cx, cy + cr + s(2));
@@ -274,31 +281,36 @@ const PAIRS = [
   }
   
   // ── BUTTONS ──────────────────────
-  function drawOutlineBtn(label, y) {
+  function drawBtn(label, y) {
     let pad = s(7);
-    let bh  = s(7), bw = width - pad*2;
-    btnArea = { x:pad, y:y, w:bw, h:bh };
-    stroke(C_BLACK); strokeWeight(1); noFill();
-    rect(pad, y, bw, bh, bh/2);
-    body(); fill(C_BLACK);
-    textAlign(CENTER, CENTER); textStyle(NORMAL); textSize(s(3.5));
-    text(label, pad + bw/2, y + bh/2);
-    textStyle(NORMAL); textAlign(LEFT, TOP);
-  }
-  
-  function drawFilledBtn(label, y) {
-    let pad = s(5);
-    let bh  = s(7), bw = width - pad*2;
+    let bh  = s(7.5), bw = width - pad*2;
     btnArea = { x:pad, y:y, w:bw, h:bh };
     noStroke(); fill(C_BLUE);
     rect(pad, y, bw, bh, bh/2);
     body(); fill(C_WHITE);
     textAlign(CENTER, CENTER); textStyle(NORMAL); textSize(s(3.5));
-    text(label, pad + bw/2, y + bh/2);
+    text(label, pad + bw/2, y + bh/2 - s(0.8));
+    textStyle(NORMAL); textAlign(LEFT, TOP);
+  }
+  
+  function drawOutlineBtn(label, y) {
+    let pad = s(7);
+    let bh  = s(7.5), bw = width - pad*2;
+    btnArea = { x:pad, y:y, w:bw, h:bh };
+    stroke(C_BLACK); strokeWeight(1); noFill();
+    rect(pad, y, bw, bh, bh/2);
+    body(); fill(C_BLACK);
+    textAlign(CENTER, CENTER); textStyle(NORMAL); textSize(s(3.5));
+    text(label, pad + bw/2, y + bh/2 - s(0.8));
     textStyle(NORMAL); textAlign(LEFT, TOP);
   }
   
   // ── INPUT ────────────────────────
+  function lockInput() {
+    inputLocked = true;
+    setTimeout(function() { inputLocked = false; }, 600);
+  }
+  
   function inBtn(mx, my) {
     return mx > btnArea.x && mx < btnArea.x + btnArea.w &&
            my > btnArea.y && my < btnArea.y + btnArea.h;
@@ -308,18 +320,20 @@ const PAIRS = [
   
   function handleInput(mx, my) {
     if (loadedCount < totalImgs) return;
+    if (inputLocked) return;
   
     if (phase === "title") {
-      if (inBtn(mx, my)) phase = "question";
+      if (inBtn(mx, my)) { phase = "question"; lockInput(); }
       return;
     }
   
     if (phase === "result") {
       if (inBtn(mx, my)) {
         pairIndex = 0; chosen = null; score = 0;
-        resultReveal = 0; phase = "title";
+        resultReveal = 0; resultStarted = false;
         pairOrder = [];
         for (let i = 0; i < PAIRS.length; i++) pairOrder.push(random() > 0.5);
+        phase = "title";
       }
       return;
     }
@@ -327,9 +341,12 @@ const PAIRS = [
     if (phase === "reveal") {
       if (inBtn(mx, my)) {
         if (pairIndex < PAIRS.length-1) {
-          pairIndex++; chosen = null; phase = "question";
+          pairIndex++; chosen = null; phase = "question"; lockInput();
         } else {
           resultReveal = 0;
+          resultStarted = false;
+          btnArea = { x:0, y:0, w:0, h:0 };
+          lockInput();
           phase = "result";
         }
       }
@@ -348,8 +365,7 @@ const PAIRS = [
   function pick(choice) {
     chosen = choice;
     let correct = getCorrectChoice(pairIndex);
-    let isCorrect = (choice === correct);
-    if (isCorrect) score++;
+    if (choice === correct) score++;
     phase = "reveal";
   }
   
