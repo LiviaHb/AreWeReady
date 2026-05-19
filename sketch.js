@@ -250,6 +250,7 @@ let zoom = delta < 0 ? 0.98 : 1.02;
 // recalculate live midpoint every frame
 let liveMidX = (touches[0].x + touches[1].x) / 2;
 let liveMidY = (touches[0].y + touches[1].y) / 2;
+print("mitte: "liveMidX);
 
 targetOffsetX = liveMidX - (liveMidX - targetOffsetX) * zoom;
 targetOffsetY = liveMidY - (liveMidY - targetOffsetY) * zoom;
