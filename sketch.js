@@ -87,6 +87,8 @@ function preload() {
 }
 
 function setup() {
+
+  console.log('pixelDensity:', pixelDensity());
   createCanvas(1080, 1920);
   shuffleFonts = [pFont, c1font, lightFont, c2font, c3font, regularFont];
 
@@ -222,7 +224,6 @@ function touchStarted(e) {
     );
     pinchMidX = (touches[0].x + touches[1].x) / 2;
     pinchMidY = (touches[0].y + touches[1].y) / 2;
-    console.log('pinchMid:', pinchMidX, pinchMidY); // should be center of screen
     isPinch = true;
   }
 
@@ -230,7 +231,10 @@ function touchStarted(e) {
 }
 
 function touchMoved(e) {
-
+  
+  let dpr = pixelDensity();
+let liveMidX = ((touchPosition.x + touchPosition1.x) / 2) / dpr;
+let liveMidY = ((touchPosition.y + touchPosition1.y) / 2) / dpr;
 let t = touches[0];
 touchPosition = createVector(t.x, t.y);
 let t1 = touches[1];
