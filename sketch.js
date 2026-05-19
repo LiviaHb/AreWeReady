@@ -61,7 +61,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(1080, 1920);
+  createCanvas(windowWidth, windowHeight);
   shuffleFonts = [pFont, c1font, lightFont, c2font, c3font, regularFont];
 
   pg3D = createGraphics(1920, 1920, WEBGL);
