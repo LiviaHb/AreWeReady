@@ -17,6 +17,9 @@ let swipeVerticalThreshold = 40;
 let swipeDurationThreshold = 500;
 
 let gesture = "";
+
+let pinchMidX = 0;
+let pinchMidY = 0;
 ///////////////////////////////
 
 //fonts
@@ -105,7 +108,7 @@ function draw() {
  background(255);
 
  textSize(100);
-  text(`gesture: ${gesture}`, 50, 50);
+  text(`gesturee: ${gesture}`, 50, 50);
 
   sf = lerp(sf, targetSf, EASE);
   offsetX = lerp(offsetX, targetOffsetX, EASE);
@@ -217,6 +220,9 @@ function touchStarted(e) {
       touchStartPosition,
       touchStartPosition1
     );
+    
+    pinchMidX = (touches[0].x + touches[1].x) / 2;
+    pinchMidY = (touches[0].y + touches[1].y) / 2;
     isPinch = true;
   }
 
@@ -242,11 +248,9 @@ function touchMoved(e) {
 
     let zoom = delta < 0 ? 0.98 : 1.02;
 
-    let midX = (touches[0].x + touches[1].x) / 2;
-    let midY = (touches[0].y + touches[1].y) / 2;
+    targetOffsetX = pinchMidX - (pinchMidX - targetOffsetX) * zoom;
+    targetOffsetY = pinchMidY - (pinchMidY - targetOffsetY) * zoom;
 
-    targetOffsetX = midX - (midX - targetOffsetX) * zoom;
-    targetOffsetY = midY - (midY - targetOffsetY) * zoom;
     targetSf *= zoom;
 
     pinchStartDistance = pinchDistance;
