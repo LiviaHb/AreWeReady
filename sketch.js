@@ -243,29 +243,29 @@ function draw3D() {
 
   //blau mit etwas shimmer, passt zum anderen blau, sehr dunkel
 
-/*   pg3D.ambientLight(100);
+/*    pg3D.ambientLight(150);
   pg3D.directionalLight(255, 255, 255, 100, 100, 400);
   pg3D.specularMaterial(0,255,255, 125);
   pg3D.shininess(100);
-  pg3D.emissiveMaterial(0,0,60); */
+  pg3D.emissiveMaterial(0,0,60);  */
 
   //glänzt fast nicht wirkt sehr flat, tiefes blau
   
- /*  pg3D.ambientLight(100);
+  /*   pg3D.ambientLight(100);
   pg3D.directionalLight(255, 255, 255, -1, 1, -3);
   pg3D.specularMaterial(0,10,255, 100);
   pg3D.shininess(100);
   pg3D.emissiveMaterial(0,0,60);
- */
+   */
 
     //sehr shiny, glänzt stark in cyan, oben ist grau weiß
 
-/*     pg3D.ambientLight(100);
+  pg3D.ambientLight(100);
   pg3D.directionalLight(255, 255, 255, -1, 1, -3);
   pg3D.specularMaterial(100,255,50, 0);
   pg3D.shininess(5);
   pg3D.emissiveMaterial(0,0,10);
-  */
+     
 
   //sehr blau wenig shiny, oberer teil ist fast eine fläche
 /* 
@@ -274,16 +274,16 @@ function draw3D() {
   pg3D.specularMaterial(100,255,50, 0);
   pg3D.shininess(5);
   pg3D.emissiveMaterial(0,0,10);
-   */
+    */
 
-  
+ /*  
   pg3D.ambientLight(200);
   pg3D.pointLight(255, 255, 255, 10, 100, -50);
   pg3D.specularMaterial(100,255,50, 0);
   pg3D.shininess(5);
   pg3D.emissiveMaterial(0,0,10);
-  
-
+   */
+ 
   
   //pg3D.fill(255);
 
