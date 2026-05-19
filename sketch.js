@@ -237,6 +237,13 @@ function touchMoved(e) {
       
       // pinch in recognized here
       gesture = "pinch in";
+    let zoom = e.delta > 0 ? 0.8 : 1.1;
+
+    targetOffsetX = mouseX - (mouseX - targetOffsetX) * zoom;
+    targetOffsetY = mouseY - (mouseY - targetOffsetY) * zoom;
+    targetSf *= zoom;
+
+  return false; 
       
     } else if (delta > pinchThreshold) {
       
