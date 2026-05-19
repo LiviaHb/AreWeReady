@@ -220,9 +220,9 @@ function touchStarted(e) {
       touchStartPosition,
       touchStartPosition1
     );
-    
     pinchMidX = (touches[0].x + touches[1].x) / 2;
     pinchMidY = (touches[0].y + touches[1].y) / 2;
+    console.log('pinchMid:', pinchMidX, pinchMidY); // should be center of screen
     isPinch = true;
   }
 
@@ -245,19 +245,13 @@ function touchMoved(e) {
       gesture = "pinch out";
     }
 
-    let zoom = delta < 0 ? 0.98 : 1.02;
+let zoom = delta < 0 ? 0.98 : 1.02;
 
-    // convert pinch midpoint to world space
-    let worldPinchX = (pinchMidX - targetOffsetX) / targetSf;
-    let worldPinchY = (pinchMidY - targetOffsetY) / targetSf;
+targetOffsetX = pinchMidX - (pinchMidX - targetOffsetX) * zoom;
+targetOffsetY = pinchMidY - (pinchMidY - targetOffsetY) * zoom;
+targetSf *= zoom;
 
-    targetSf *= zoom;
-
-    // recalculate offset so world point stays under fingers
-    targetOffsetX = pinchMidX - worldPinchX * targetSf;
-    targetOffsetY = pinchMidY - worldPinchY * targetSf;
-
-    pinchStartDistance = pinchDistance;
+pinchStartDistance = pinchDistance;
 
   } else {
     isTouchMoved = true;
