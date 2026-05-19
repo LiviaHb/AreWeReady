@@ -251,6 +251,36 @@ function touchMoved(e) {
   }
 }
 
+
+function touchEnded(e) {
+  if (isPinch) {
+    isPinch = false;
+    return;
+  } else if (
+    !isTouchMoved &&
+    millis() - touchTimestamp < tapDurationThreshold
+  ) {
+    gesture = "tap";
+    return;
+  }
+
+  isTouchMoved = false;
+  if (millis() - touchTimestamp < swipeDurationThreshold) {
+    let touchDelta = p5.Vector.sub(touchPosition, touchStartPosition);
+    if (
+      abs(touchDelta.y) < swipeVerticalThreshold &&
+      abs(touchDelta.x) > swipeHorizontalThreshold
+    ) {
+      if (touchDelta.x < 0) {
+        gesture = "swipe left";
+      } else {
+        gesture = "swipe right";
+      }
+    }
+  }
+}
+
+
 //ZOOM!!!!
 function mouseWheel(event) {
   
