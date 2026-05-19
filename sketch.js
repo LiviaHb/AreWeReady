@@ -232,34 +232,28 @@ function touchMoved(e) {
     touchPosition1 = createVector(t1.x, t1.y);
     pinchDistance = p5.Vector.dist(touchPosition, touchPosition1);
     let delta = pinchDistance - pinchStartDistance;
-    console.log(delta);
-    if (delta < -pinchThreshold) {
-      
-      // pinch in recognized here
-      gesture = "pinch inn";
-    let zoom = e.delta > 0 ? 0.8 : 1.1;
 
-    targetOffsetX = mouseX - (mouseX - targetOffsetX) * zoom;
-    targetOffsetY = mouseY - (mouseY - targetOffsetY) * zoom;
-    targetSf *= zoom;
-
-  return false; 
-      
-    } else if (delta > pinchThreshold) {
-      
-      // pinch out recognized here
+    // gesture text
+    if (delta < 0) {
+      gesture = "pinch in";
+    } else if (delta > 0) {
       gesture = "pinch out";
-      
     }
 
-    let zoom = e.delta > 0 ? 0.8 : 1.1;
+    let zoom = delta < 0 ? 0.98 : 1.02;
 
-    targetOffsetX = mouseX - (mouseX - targetOffsetX) * zoom;
-    targetOffsetY = mouseY - (mouseY - targetOffsetY) * zoom;
+    let midX = (touches[0].x + touches[1].x) / 2;
+    let midY = (touches[0].y + touches[1].y) / 2;
+
+    targetOffsetX = midX - (midX - targetOffsetX) * zoom;
+    targetOffsetY = midY - (midY - targetOffsetY) * zoom;
     targetSf *= zoom;
+
+    pinchStartDistance = pinchDistance;
 
   } else {
     isTouchMoved = true;
+    gesture = "drag"; // if you had this before
     let t = touches[0];
     touchPosition = createVector(t.x, t.y);
   }
