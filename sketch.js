@@ -236,7 +236,7 @@ function touchMoved(e) {
     if (delta < -pinchThreshold) {
       
       // pinch in recognized here
-      gesture = "pinch in";
+      gesture = "pinch inn";
     let zoom = e.delta > 0 ? 0.8 : 1.1;
 
     targetOffsetX = mouseX - (mouseX - targetOffsetX) * zoom;
@@ -251,6 +251,13 @@ function touchMoved(e) {
       gesture = "pinch out";
       
     }
+
+    let zoom = e.delta > 0 ? 0.8 : 1.1;
+
+    targetOffsetX = mouseX - (mouseX - targetOffsetX) * zoom;
+    targetOffsetY = mouseY - (mouseY - targetOffsetY) * zoom;
+    targetSf *= zoom;
+
   } else {
     isTouchMoved = true;
     let t = touches[0];
