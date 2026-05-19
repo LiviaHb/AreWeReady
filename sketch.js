@@ -1,3 +1,23 @@
+//GESTEN
+let isTouchMoved = false;
+let touchStartPosition;
+let touchPosition;
+
+let touchStartPosition1; // for pinch
+let touchPosition1; // for pinch
+let pinchStartDistance, pinchDistance;
+let pinchThreshold = 75;
+let isPinch = false;
+
+let touchTimestamp;
+let tapDurationThreshold = 100;
+
+let swipeHorizontalThreshold = 50;
+let swipeVerticalThreshold = 40;
+let swipeDurationThreshold = 500;
+
+let gesture = "";
+///////////////////////////////
 
 //fonts
 let table;
@@ -69,6 +89,13 @@ function setup() {
 
   pg3D = createGraphics(1920, 1920, WEBGL);
   pg3D.smooth();
+
+  //GESTEN
+  document.body.style.touchAction = "manipulation";
+  document.body.style.userSelect = "none";
+  document.addEventListener("contextmenu", (event) => event.preventDefault());
+  document.addEventListener("selectstart", (event) => event.preventDefault());
+  //https://editor.p5js.org/clement.zheng/sketches/X3vjZ5ACh
 
 }
 
@@ -291,7 +318,7 @@ function draw3D() {
   //pg3D.fill(255);
   //frameRate(60);
   //animation
-  let deltaX = 0.001 * deltaTime;
+  let deltaX = 0.0005 * deltaTime;
   xTime += deltaX;
   
   pg3D.rotateY(xTime);
