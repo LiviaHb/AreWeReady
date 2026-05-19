@@ -36,6 +36,9 @@ let shuffleFonts = []; // Array für den Schriften-Wechsel
 let pg3D;
 let myModel;
 
+let xTime = 0;
+
+
 
 function preload() {
   table = loadTable("tabelle.csv", "csv", "header");
@@ -286,9 +289,13 @@ function draw3D() {
  
   
   //pg3D.fill(255);
-
+  //frameRate(60);
   //animation
-  pg3D.rotateY(frameCount * 0.01);
+  let deltaX = 0.001 * deltaTime;
+  xTime += deltaX;
+  
+  pg3D.rotateY(xTime);
+  print(deltaTime);
   pg3D.noStroke(); //mesh stroke entfernen (schwarz)
   pg3D.scale(1.5, -1.5, 1.5);
   pg3D.texture(bluetexture);
