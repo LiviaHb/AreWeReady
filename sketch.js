@@ -247,8 +247,12 @@ function touchMoved(e) {
 
 let zoom = delta < 0 ? 0.98 : 1.02;
 
-targetOffsetX = pinchMidX - (pinchMidX - targetOffsetX) * zoom;
-targetOffsetY = pinchMidY - (pinchMidY - targetOffsetY) * zoom;
+// recalculate live midpoint every frame
+let liveMidX = (touches[0].x + touches[1].x) / 2;
+let liveMidY = (touches[0].y + touches[1].y) / 2;
+
+targetOffsetX = liveMidX - (liveMidX - targetOffsetX) * zoom;
+targetOffsetY = liveMidY - (liveMidY - targetOffsetY) * zoom;
 targetSf *= zoom;
 
 pinchStartDistance = pinchDistance;
