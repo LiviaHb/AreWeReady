@@ -408,7 +408,7 @@ function draw3D() {
   xTime += deltaX;
   
   pg3D.rotateY(xTime);
-  print(deltaTime);
+  //print(deltaTime);
   pg3D.noStroke(); //mesh stroke entfernen (schwarz)
   pg3D.scale(1.5, -1.5, 1.5);
   pg3D.texture(bluetexture);
