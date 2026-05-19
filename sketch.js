@@ -108,7 +108,7 @@ function draw() {
  background(255);
 
  textSize(100);
-  text(`gestureee: ${gesture}`, 50, 50);
+  text(`gesture: ${gesture}`, 50, 50);
 
   sf = lerp(sf, targetSf, EASE);
   offsetX = lerp(offsetX, targetOffsetX, EASE);
@@ -230,6 +230,13 @@ function touchStarted(e) {
 }
 
 function touchMoved(e) {
+
+let t = touches[0];
+touchPosition = createVector(t.x, t.y);
+let t1 = touches[1];
+touchPosition1 = createVector(t1.x, t1.y);
+
+
   e.preventDefault();
   if (isPinch) {
     let t = touches[0];
@@ -247,10 +254,11 @@ function touchMoved(e) {
 
 let zoom = delta < 0 ? 0.98 : 1.02;
 
-// recalculate live midpoint every frame
-let liveMidX = (touches[0].x + touches[1].x) / 2;
-let liveMidY = (touches[0].y + touches[1].y) / 2;
-print(offsetX, offsetY, sf);
+let zoom = delta < 0 ? 0.98 : 1.02;
+
+// use already-saved touch vectors
+let liveMidX = (touchPosition.x + touchPosition1.x) / 2;
+let liveMidY = (touchPosition.y + touchPosition1.y) / 2;
 
 targetOffsetX = liveMidX - (liveMidX - targetOffsetX) * zoom;
 targetOffsetY = liveMidY - (liveMidY - targetOffsetY) * zoom;
