@@ -52,8 +52,9 @@ function preload() {
   c3font = loadFont('assets/AzeretMono-ExtraLightItalic.ttf');
  
   img1 = loadImage("assets/skizze.png"); //sketch load
+  bluetexture = loadImage("assets/Frame 2.png");
 
-  myModel = loadModel('assets/bueste_dataviz.obj', true); //3D model load 
+  myModel = loadModel('assets/bueste.obj', true); //3D model load 
   
   qrCode = loadImage("assets/QR-Code.png");
 
@@ -240,23 +241,57 @@ function draw3D() {
               0, 0, 0,
               0, 1, 0);
 
+  //blau mit etwas shimmer, passt zum anderen blau, sehr dunkel
 
-  //material
-  pg3D.specularMaterial(0,0,0);
-  pg3D.shininess(50);
+/*   pg3D.ambientLight(100);
+  pg3D.directionalLight(255, 255, 255, 100, 100, 400);
+  pg3D.specularMaterial(0,255,255, 125);
+  pg3D.shininess(100);
+  pg3D.emissiveMaterial(0,0,60); */
 
+  //glänzt fast nicht wirkt sehr flat, tiefes blau
+  
+ /*  pg3D.ambientLight(100);
+  pg3D.directionalLight(255, 255, 255, -1, 1, -3);
+  pg3D.specularMaterial(0,10,255, 100);
+  pg3D.shininess(100);
+  pg3D.emissiveMaterial(0,0,60);
+ */
 
+    //sehr shiny, glänzt stark in cyan, oben ist grau weiß
+
+/*     pg3D.ambientLight(100);
+  pg3D.directionalLight(255, 255, 255, -1, 1, -3);
+  pg3D.specularMaterial(100,255,50, 0);
+  pg3D.shininess(5);
+  pg3D.emissiveMaterial(0,0,10);
+  */
+
+  //sehr blau wenig shiny, oberer teil ist fast eine fläche
+/* 
   pg3D.ambientLight(200);
-  pg3D.directionalLight(255, 255, 255, 0.5, 1, -1);
+  pg3D.pointLight(255, 255, 255, 10, 100, -50);
+  pg3D.specularMaterial(100,255,50, 0);
+  pg3D.shininess(5);
+  pg3D.emissiveMaterial(0,0,10);
+   */
 
+  
+  pg3D.ambientLight(200);
+  pg3D.pointLight(255, 255, 255, 10, 100, -50);
+  pg3D.specularMaterial(100,255,50, 0);
+  pg3D.shininess(5);
+  pg3D.emissiveMaterial(0,0,10);
+  
 
-  pg3D.noStroke(); //mesh stroke entfernen (schwarz)
-  pg3D.fill(180);
+  
+  //pg3D.fill(255);
 
   //animation
   pg3D.rotateY(frameCount * 0.01);
-
+  pg3D.noStroke(); //mesh stroke entfernen (schwarz)
   pg3D.scale(1.5, -1.5, 1.5);
+  pg3D.texture(bluetexture);
   pg3D.model(myModel);
 
   pg3D.pop();
@@ -304,7 +339,7 @@ function quiz(){
   pop();
 
 
-  image(qrCode, -380, -120, 520, 520);
+  image(qrCode, -230, 10, 240, 240);
 
   push();
   translate(30, 230 + sin(t + 1) * 5);
