@@ -104,6 +104,8 @@ function setup() {
 function draw() {
  background(255);
 
+ textSize(100);
+  text(`gesture: ${gesture}`, 50, 50);
 
   sf = lerp(sf, targetSf, EASE);
   offsetX = lerp(offsetX, targetOffsetX, EASE);
@@ -202,6 +204,51 @@ function draw() {
   targetOffsetY = offsetY;
 
   } 
+}
+
+function touchStarted(e) {
+  let t = touches[0];
+  touchStartPosition = createVector(t.x, t.y);
+
+  if (touches.length === 2) {
+    let t1 = touches[1];
+    touchStartPosition1 = createVector(t1.x, t1.y);
+    pinchStartDistance = p5.Vector.dist(
+      touchStartPosition,
+      touchStartPosition1
+    );
+    isPinch = true;
+  }
+
+  touchTimestamp = millis();
+}
+
+function touchMoved(e) {
+  e.preventDefault();
+  if (isPinch) {
+    let t = touches[0];
+    touchPosition = createVector(t.x, t.y);
+    let t1 = touches[1];
+    touchPosition1 = createVector(t1.x, t1.y);
+    pinchDistance = p5.Vector.dist(touchPosition, touchPosition1);
+    let delta = pinchDistance - pinchStartDistance;
+    console.log(delta);
+    if (delta < -pinchThreshold) {
+      
+      // pinch in recognized here
+      gesture = "pinch in";
+      
+    } else if (delta > pinchThreshold) {
+      
+      // pinch out recognized here
+      gesture = "pinch out";
+      
+    }
+  } else {
+    isTouchMoved = true;
+    let t = touches[0];
+    touchPosition = createVector(t.x, t.y);
+  }
 }
 
 //ZOOM!!!!
