@@ -108,7 +108,7 @@ function draw() {
  background(255);
 
  textSize(100);
-  text(`gesturee: ${gesture}`, 50, 50);
+  text(`gestureee: ${gesture}`, 50, 50);
 
   sf = lerp(sf, targetSf, EASE);
   offsetX = lerp(offsetX, targetOffsetX, EASE);
@@ -239,7 +239,6 @@ function touchMoved(e) {
     pinchDistance = p5.Vector.dist(touchPosition, touchPosition1);
     let delta = pinchDistance - pinchStartDistance;
 
-    // gesture text
     if (delta < 0) {
       gesture = "pinch in";
     } else if (delta > 0) {
@@ -248,21 +247,25 @@ function touchMoved(e) {
 
     let zoom = delta < 0 ? 0.98 : 1.02;
 
-    targetOffsetX = pinchMidX - (pinchMidX - targetOffsetX) * zoom;
-    targetOffsetY = pinchMidY - (pinchMidY - targetOffsetY) * zoom;
+    // convert pinch midpoint to world space
+    let worldPinchX = (pinchMidX - targetOffsetX) / targetSf;
+    let worldPinchY = (pinchMidY - targetOffsetY) / targetSf;
 
     targetSf *= zoom;
+
+    // recalculate offset so world point stays under fingers
+    targetOffsetX = pinchMidX - worldPinchX * targetSf;
+    targetOffsetY = pinchMidY - worldPinchY * targetSf;
 
     pinchStartDistance = pinchDistance;
 
   } else {
     isTouchMoved = true;
-    gesture = "drag"; // if you had this before
+    gesture = "drag";
     let t = touches[0];
     touchPosition = createVector(t.x, t.y);
   }
 }
-
 
 function touchEnded(e) {
   if (isPinch) {
