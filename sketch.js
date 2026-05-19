@@ -254,7 +254,7 @@ touchPosition1 = createVector(t1.x, t1.y);
 
 let zoom = delta < 0 ? 0.98 : 1.02;
 
-let zoom = delta < 0 ? 0.98 : 1.02;
+
 
 // use already-saved touch vectors
 let liveMidX = (touchPosition.x + touchPosition1.x) / 2;
