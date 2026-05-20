@@ -88,7 +88,7 @@ function preload() {
 
 function setup() {
 
-  console.log('pixelDensity:', pixelDensity());
+
   createCanvas(1080, 1920);
   shuffleFonts = [pFont, c1font, lightFont, c2font, c3font, regularFont];
 
@@ -102,8 +102,7 @@ function setup() {
   document.addEventListener("selectstart", (event) => event.preventDefault());
   //https://editor.p5js.org/clement.zheng/sketches/X3vjZ5ACh
 
-  console.log('pixelDensity:', pixelDensity());
-  console.log('windowWidth:', windowWidth, 'width:', width);
+
 
 }
 
@@ -130,7 +129,7 @@ function draw() {
     translate(offsetX, offsetY);
     scale(sf);
   } else {
-    console.log('RESET FIRED', sf, targetSf); // is this printing during pinch?
+   
     sf = 1; targetSf = 1;
     offsetX = 0; targetOffsetX = 0;
     offsetY = 0; targetOffsetY = 0;
@@ -942,9 +941,13 @@ function title() {
 
   if (sf > maxZoom-1.6) {
       
+
     fill("#0101FF");
     noStroke();
     circle(500, 300, 100);
+    fill("white");
+    textSize(20);
+    text("double tap", 470, 280, 50);
   
   }
 
