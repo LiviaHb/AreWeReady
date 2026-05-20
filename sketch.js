@@ -102,6 +102,9 @@ function setup() {
   document.addEventListener("selectstart", (event) => event.preventDefault());
   //https://editor.p5js.org/clement.zheng/sketches/X3vjZ5ACh
 
+  console.log('pixelDensity:', pixelDensity());
+  console.log('windowWidth:', windowWidth, 'width:', width);
+
 }
 
 
@@ -354,9 +357,9 @@ function doubleClicked() {
   }else if (worldMX > 40 && worldMX < 40 + 400 && worldMY > 1300 && worldMY < 1300 + 200) {
     zoomToTarget(40 + 150, 1300 + 100, maxZoom+0.1); //Zoomt auf die Mitte von quiz      //"quiz" Bereich
     // Quiz liegt bei x=70, y=1250. KLickbox 400x200
-  }else if (worldMX > 40 && worldMX < 40 + 400 && worldMY > 1300 && worldMY < 1300 + 200) {
-    zoomToTarget(40 + 150, 1300 + 100, maxZoom+0.1); //Zoomt auf die Mitte von quiz      //"quiz" Bereich
-    // Quiz liegt bei x=70, y=1250. KLickbox 400x200
+  }else if (worldMX > 70 && worldMX < 70 + 400 && worldMY > 40 && worldMY < 40 + 200) {
+    zoomToTarget(70 + 150, 40 + 100, maxZoom+0.1); //Zoomt auf die Mitte von are we ready      //"quiz" Bereich
+    // are we ready liegt bei x=70, y=40. KLickbox 400x200
   }else {
     
     zoomToTarget(0,0,0);
@@ -644,7 +647,7 @@ function konfidenz(){
   textWrap(WORD);
   text('von KI generierten Bildern wurden in einem Test richtig erkannt. Das ist ungefähr die Wahrscheinlichkeit eines Münzwurfes.', 30, 470, 385);
   fill("#A7A7A7");
-  text('49% der echten Bilder wurden richtig erkannt..', 30, 770, 400);
+  text('49% der echten Bilder wurden richtig erkannt.', 30, 770, 400);
 
   pop();
 
