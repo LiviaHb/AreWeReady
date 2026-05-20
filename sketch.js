@@ -236,7 +236,7 @@ function touchStarted(e) {
 
 function touchMoved(e) {
   e.preventDefault();
-  console.log('liveMid:', liveMidX, liveMidY, 'mouse:', mouseX, mouseY);
+  
   if (isPinch) {
     let t = touches[0];
     touchPosition = createVector(t.x, t.y);
@@ -275,6 +275,7 @@ function touchMoved(e) {
     let t = touches[0];
     touchPosition = createVector(t.x, t.y);
   }
+  console.log('liveMid:', liveMidX, liveMidY, 'mouse:', mouseX, mouseY);
 }
 
 function touchEnded(e) {
@@ -354,6 +355,9 @@ function doubleClicked() {
     zoomToTarget(40 + 250, 70 + 250, maxZoom-1.5); //Zoomt auf die Mitte von are we ready     
     // are we ready liegt bei x=40, y=40. KLickbox 300x200
    
+  }else if (worldMX > 170 && worldMX < 170 + 50 && worldMY > 270 && worldMY < 270 + 50) {
+    zoomToTarget(675 + 142, 40 + 250, maxZoom+0.1); //zoom to stock webseiten
+
   }else {
     
     zoomToTarget(0,0,0);
@@ -948,6 +952,8 @@ function title() {
     fill("white");
     textSize(20);
     text("double tap", 470, 280, 50);
+
+
   
   }
 
