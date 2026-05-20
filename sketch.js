@@ -137,6 +137,8 @@ function draw() {
 
   // DRAW ELEMENTE AUßEN /////////////////////////////////////
 
+
+
   push();
   draw3D();
   image(pg3D, -450, 0, 1920, 1920);
@@ -355,7 +357,7 @@ function doubleClicked() {
     zoomToTarget(40 + 250, 70 + 250, maxZoom-1.5); //Zoomt auf die Mitte von are we ready     
     // are we ready liegt bei x=40, y=40. KLickbox 300x200
    
-  }else if (worldMX > 170 && worldMX < 170 + 50 && worldMY > 270 && worldMY < 270 + 50) {
+  }else if (worldMX > 350 && worldMX < 350 + 200 && worldMY > 300 && worldMY < 300 + 200) {
     zoomToTarget(675 + 142, 40 + 250, maxZoom+0.1); //zoom to stock webseiten
 
   }else {
@@ -953,6 +955,7 @@ function title() {
     textSize(20);
     text("double tap", 470, 280, 50);
 
+  
 
   
   }
