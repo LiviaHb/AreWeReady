@@ -130,6 +130,7 @@ function draw() {
     translate(offsetX, offsetY);
     scale(sf);
   } else {
+    console.log('RESET FIRED', sf, targetSf); // is this printing during pinch?
     sf = 1; targetSf = 1;
     offsetX = 0; targetOffsetX = 0;
     offsetY = 0; targetOffsetY = 0;
@@ -263,6 +264,8 @@ function touchMoved(e) {
     targetOffsetY = liveMidY - (liveMidY - targetOffsetY) * zoom;
     targetSf *= zoom;
 
+    console.log('targetOffset after:', targetOffsetX, targetOffsetY, 'targetSf:', targetSf)
+
     pinchStartDistance = pinchDistance;
 
   } else {
@@ -346,9 +349,9 @@ function doubleClicked() {
   }else if (worldMX > 40 && worldMX < 40 + 400 && worldMY > 1300 && worldMY < 1300 + 200) {
     zoomToTarget(40 + 150, 1300 + 100, maxZoom+0.1); //Zoomt auf die Mitte von quiz      //"quiz" Bereich
     // Quiz liegt bei x=70, y=1250. KLickbox 400x200
-  }else if (worldMX > 70 && worldMX < 70 + 400 && worldMY > 40 && worldMY < 40 + 200) {
-    zoomToTarget(70 + 150, 40 + 100, maxZoom+0.1); //Zoomt auf die Mitte von are we ready      //"quiz" Bereich
-    // are we ready liegt bei x=70, y=40. KLickbox 400x200
+  }else if (worldMX > 40 && worldMX < 40 + 300 && worldMY > 70 && worldMY < 70 + 200) {
+    zoomToTarget(40 + 180, 70 + 150, maxZoom+0.1); //Zoomt auf die Mitte von are we ready     
+    // are we ready liegt bei x=40, y=40. KLickbox 300x200
   }else {
     
     zoomToTarget(0,0,0);
