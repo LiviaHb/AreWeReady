@@ -48,7 +48,7 @@ let offsetY = 0;
 let targetSf = 1;
 let targetOffsetX = 0;
 let targetOffsetY = 0;
-const EASE = 0.2;  // 0.05 = slower, 0.2 = snappier
+const EASE = 0.2; 
 
 let worldMX, worldMY; //Welt-Koordinaten
 let mx, my; //Maus Koordinaten
@@ -60,6 +60,9 @@ let pg3D;
 let myModel;
 
 let xTime = 0;
+
+let lastTapTime = 0;
+let doubleTapThreshold = 300;
 
 
 
@@ -283,7 +286,6 @@ function touchMoved(e) {
 }
 
 function touchEnded(e) {
-
   e.preventDefault();
 
   if (isPinch) {
@@ -294,6 +296,55 @@ function touchEnded(e) {
     millis() - touchTimestamp < tapDurationThreshold
   ) {
     gesture = "tap";
+
+    // double tap detection
+    if (millis() - lastTapTime < doubleTapThreshold) {
+      gesture = "double tap";
+
+        //Welt-Koordinaten
+  worldMX = (mouseX - offsetX) / sf;
+  worldMY = (mouseY - offsetY) / sf;
+
+  //Reddit Bereich
+  //Reddit liegt bei x=760, y=1170. KLickbox 300x400
+  if (worldMX > 760 && worldMX < 760 + 300 && worldMY > 1170 && worldMY < 1170 + 400) {
+    zoomToTarget(760 + 150, 1170 + 200, maxZoom+0.1); //Zoomt auf die Mitte von Reddit
+  }else if (worldMX > 830 && worldMX < 830 + 200 && worldMY > 520 && worldMY < 520 + 400) {
+    zoomToTarget(880 + 100, 520 + 200, maxZoom+0.1);  //"Konfidenz" Bereich
+    // Konfidenz liegt bei x=830, y=520. KLickbox 200x400 //Zoomt auf die Mitte von Konfidenz
+  }else if (worldMX > 850 && worldMX < 850 + 200 && worldMY > 1550 && worldMY < 1550 + 400) {
+    zoomToTarget(850 + 90, 1550 + 230, maxZoom+0.1); //Zoomt auf die Mitte von Masse im Vergleich     //"Masse im Vergleich" Bereich
+    // Masse im Vergleich liegt bei x=850, y=1550. KLickbox 200x400
+    
+
+  }else if (worldMX > 70 && worldMX < 70 + 200 && worldMY > 1550 && worldMY < 1550 + 400) {
+    zoomToTarget(70 + 135, 1550 + 260, maxZoom+0.1); //Zoomt auf die Mitte von KI-Tools    //"KI-Tools" Bereich
+    // KI-Tools liegt bei x=70, y=1550. KLickbox 200x400
+    
+  }else if (worldMX > 675 && worldMX < 675 + 400 && worldMY > 40 && worldMY < 40 + 200) {
+    zoomToTarget(675 + 142, 40 + 250, maxZoom+0.1); //Zoomt auf die Mitte von Stock       //"Stock" Bereich
+    // Stock liegt bei x=675, y=40. KLickbox 400x200
+  }else if (worldMX > 40 && worldMX < 40 + 400 && worldMY > 1300 && worldMY < 1300 + 200) {
+    zoomToTarget(40 + 150, 1300 + 100, maxZoom+0.1); //Zoomt auf die Mitte von quiz      //"quiz" Bereich
+    // Quiz liegt bei x=70, y=1250. KLickbox 400x200
+  }else if (worldMX > 40 && worldMX < 40 + 300 && worldMY > 70 && worldMY < 70 + 200) {
+    zoomToTarget(40 + 250, 70 + 250, maxZoom-1.5); //Zoomt auf die Mitte von are we ready     
+    // are we ready liegt bei x=40, y=40. KLickbox 300x200
+   
+  }else if (worldMX > 350 && worldMX < 350 + 200 && worldMY > 300 && worldMY < 300 + 200) {
+    zoomToTarget(675 + 142, 40 + 250, maxZoom+0.1); //zoom to stock webseiten
+
+  }else {
+    
+    zoomToTarget(0,0,0);
+  
+  
+  }
+
+      lastTapTime = 0;
+    } else {
+      lastTapTime = millis();
+    }
     return;
   }
 
