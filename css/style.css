@@ -5,12 +5,15 @@
 }
 
 body {
+    touch-action: none;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     background: #f0f0f0;
     overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -20,3 +23,7 @@ body {
        position: fixed;
        z-index: 3000;
 }
+
+canvas {
+    touch-action: none;
+  }

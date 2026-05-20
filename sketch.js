@@ -212,6 +212,7 @@ function draw() {
 }
 
 function touchStarted(e) {
+  e.preventDefault();
   let t = touches[0];
   touchStartPosition = createVector(t.x, t.y);
 
@@ -231,6 +232,8 @@ function touchStarted(e) {
 }
 
 function touchMoved(e) {
+
+  e.preventDefault();
   
   let dpr = pixelDensity();
 let liveMidX = ((touchPosition.x + touchPosition1.x) / 2) / dpr;
@@ -279,6 +282,9 @@ pinchStartDistance = pinchDistance;
 }
 
 function touchEnded(e) {
+
+  e.preventDefault();
+
   if (isPinch) {
     isPinch = false;
     return;
@@ -305,6 +311,7 @@ function touchEnded(e) {
     }
   }
 }
+
 
 
 //ZOOM!!!!
@@ -344,6 +351,9 @@ function doubleClicked() {
   }else if (worldMX > 675 && worldMX < 675 + 400 && worldMY > 40 && worldMY < 40 + 200) {
     zoomToTarget(675 + 142, 40 + 250, maxZoom+0.1); //Zoomt auf die Mitte von Stock       //"Stock" Bereich
     // Stock liegt bei x=675, y=40. KLickbox 400x200
+  }else if (worldMX > 40 && worldMX < 40 + 400 && worldMY > 1300 && worldMY < 1300 + 200) {
+    zoomToTarget(40 + 150, 1300 + 100, maxZoom+0.1); //Zoomt auf die Mitte von quiz      //"quiz" Bereich
+    // Quiz liegt bei x=70, y=1250. KLickbox 400x200
   }else if (worldMX > 40 && worldMX < 40 + 400 && worldMY > 1300 && worldMY < 1300 + 200) {
     zoomToTarget(40 + 150, 1300 + 100, maxZoom+0.1); //Zoomt auf die Mitte von quiz      //"quiz" Bereich
     // Quiz liegt bei x=70, y=1250. KLickbox 400x200
