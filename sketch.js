@@ -237,7 +237,7 @@ function touchStarted(e) {
 
 function touchMoved(e) {
   e.preventDefault();
-
+  console.log('liveMid:', liveMidX, liveMidY, 'mouse:', mouseX, mouseY);
   if (isPinch) {
     let t = touches[0];
     touchPosition = createVector(t.x, t.y);
@@ -354,11 +354,7 @@ function doubleClicked() {
   }else if (worldMX > 40 && worldMX < 40 + 300 && worldMY > 70 && worldMY < 70 + 200) {
     zoomToTarget(40 + 250, 70 + 250, maxZoom-1.5); //Zoomt auf die Mitte von are we ready     
     // are we ready liegt bei x=40, y=40. KLickbox 300x200
-    if (sf > maxZoom-1.5) {
-      
-      print("hi");
-    
-    }
+   
   }else {
     
     zoomToTarget(0,0,0);
@@ -943,6 +939,16 @@ function title() {
   fill(0);
   text('for AI?', 0, 0);
   pop();
+
+  if (sf > maxZoom-1.6) {
+      
+    fill("#0101FF");
+    noStroke();
+    circle(500, 300, 100);
+  
+  }
+
+
 }
 
 function kitoolsText(){
