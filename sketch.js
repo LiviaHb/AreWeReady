@@ -265,8 +265,8 @@ function touchMoved(e) {
 
     let zoom = delta < 0 ? 0.98 : 1.02;
 
-    let liveMidX = (touchPosition.x + touchPosition1.x) / 2;
-    let liveMidY = (touchPosition.y + touchPosition1.y) / 2;
+    let liveMidX = mouseX;
+    let liveMidY = mouseY;
 
     targetOffsetX = liveMidX - (liveMidX - targetOffsetX) * zoom;
     targetOffsetY = liveMidY - (liveMidY - targetOffsetY) * zoom;
