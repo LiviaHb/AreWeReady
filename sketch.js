@@ -247,6 +247,12 @@ function touchMoved(e) {
     pinchDistance = p5.Vector.dist(touchPosition, touchPosition1);
     let delta = pinchDistance - pinchStartDistance;
 
+    // ignore tiny jitter
+    if (abs(delta) < 1) {
+      pinchStartDistance = pinchDistance;
+      return;
+    }
+
     if (delta < 0) {
       gesture = "pinch in";
     } else if (delta > 0) {
@@ -258,13 +264,9 @@ function touchMoved(e) {
     let liveMidX = (touchPosition.x + touchPosition1.x) / 2;
     let liveMidY = (touchPosition.y + touchPosition1.y) / 2;
 
-    console.log('mid:', liveMidX, liveMidY);
-
     targetOffsetX = liveMidX - (liveMidX - targetOffsetX) * zoom;
     targetOffsetY = liveMidY - (liveMidY - targetOffsetY) * zoom;
     targetSf *= zoom;
-
-    console.log('targetOffset after:', targetOffsetX, targetOffsetY, 'targetSf:', targetSf)
 
     pinchStartDistance = pinchDistance;
 
@@ -350,8 +352,13 @@ function doubleClicked() {
     zoomToTarget(40 + 150, 1300 + 100, maxZoom+0.1); //Zoomt auf die Mitte von quiz      //"quiz" Bereich
     // Quiz liegt bei x=70, y=1250. KLickbox 400x200
   }else if (worldMX > 40 && worldMX < 40 + 300 && worldMY > 70 && worldMY < 70 + 200) {
-    zoomToTarget(40 + 180, 70 + 150, maxZoom+0.1); //Zoomt auf die Mitte von are we ready     
+    zoomToTarget(40 + 250, 70 + 250, maxZoom-1.5); //Zoomt auf die Mitte von are we ready     
     // are we ready liegt bei x=40, y=40. KLickbox 300x200
+    if (sf > maxZoom-1.5) {
+      
+      print("hi");
+    
+    }
   }else {
     
     zoomToTarget(0,0,0);
