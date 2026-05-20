@@ -269,6 +269,8 @@ function touchMoved(e) {
     targetOffsetY = liveMidY - (liveMidY - targetOffsetY) * zoom;
     targetSf *= zoom;
 
+    console.log('liveMid:', liveMidX, liveMidY, 'mouse:', mouseX, mouseY);
+
     pinchStartDistance = pinchDistance;
 
   } else {
@@ -277,7 +279,7 @@ function touchMoved(e) {
     let t = touches[0];
     touchPosition = createVector(t.x, t.y);
   }
-  console.log('liveMid:', liveMidX, liveMidY, 'mouse:', mouseX, mouseY);
+  
 }
 
 function touchEnded(e) {
@@ -397,38 +399,38 @@ function draw3D() {
 
   //glänzt fast nicht wirkt sehr flat, tiefes blau
   
-  /*   pg3D.ambientLight(100);
+/*   pg3D.ambientLight(100);
   pg3D.directionalLight(255, 255, 255, -1, 1, -3);
   pg3D.specularMaterial(0,10,255, 100);
   pg3D.shininess(100);
   pg3D.emissiveMaterial(0,0,60);
-   */
+    */
 
     //sehr shiny, glänzt stark in cyan, oben ist grau weiß
-
+  
   pg3D.ambientLight(100);
   pg3D.directionalLight(255, 255, 255, -1, 1, -3);
   pg3D.specularMaterial(100,255,50, 0);
   pg3D.shininess(5);
   pg3D.emissiveMaterial(0,0,10);
-     
+       
 
   //sehr blau wenig shiny, oberer teil ist fast eine fläche
-/* 
+ 
+  /* pg3D.ambientLight(200);
+  pg3D.pointLight(255, 255, 255, 10, 100, -50);
+  pg3D.specularMaterial(100,255,50, 0);
+  pg3D.shininess(5);
+  pg3D.emissiveMaterial(0,0,10);
+     */
+
+/*   
   pg3D.ambientLight(200);
   pg3D.pointLight(255, 255, 255, 10, 100, -50);
   pg3D.specularMaterial(100,255,50, 0);
   pg3D.shininess(5);
   pg3D.emissiveMaterial(0,0,10);
     */
-
- /*  
-  pg3D.ambientLight(200);
-  pg3D.pointLight(255, 255, 255, 10, 100, -50);
-  pg3D.specularMaterial(100,255,50, 0);
-  pg3D.shininess(5);
-  pg3D.emissiveMaterial(0,0,10);
-   */
  
   
   //pg3D.fill(255);
