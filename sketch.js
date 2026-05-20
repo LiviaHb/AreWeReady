@@ -235,24 +235,14 @@ function touchStarted(e) {
 }
 
 function touchMoved(e) {
-
   e.preventDefault();
-  
-  let dpr = pixelDensity();
-let liveMidX = ((touchPosition.x + touchPosition1.x) / 2) / dpr;
-let liveMidY = ((touchPosition.y + touchPosition1.y) / 2) / dpr;
-let t = touches[0];
-touchPosition = createVector(t.x, t.y);
-let t1 = touches[1];
-touchPosition1 = createVector(t1.x, t1.y);
 
-
-  e.preventDefault();
   if (isPinch) {
     let t = touches[0];
     touchPosition = createVector(t.x, t.y);
     let t1 = touches[1];
     touchPosition1 = createVector(t1.x, t1.y);
+
     pinchDistance = p5.Vector.dist(touchPosition, touchPosition1);
     let delta = pinchDistance - pinchStartDistance;
 
@@ -262,19 +252,18 @@ touchPosition1 = createVector(t1.x, t1.y);
       gesture = "pinch out";
     }
 
-let zoom = delta < 0 ? 0.98 : 1.02;
+    let zoom = delta < 0 ? 0.98 : 1.02;
 
+    let liveMidX = (touchPosition.x + touchPosition1.x) / 2;
+    let liveMidY = (touchPosition.y + touchPosition1.y) / 2;
 
+    console.log('mid:', liveMidX, liveMidY);
 
-// use already-saved touch vectors
-let liveMidX = (touchPosition.x + touchPosition1.x) / 2;
-let liveMidY = (touchPosition.y + touchPosition1.y) / 2;
+    targetOffsetX = liveMidX - (liveMidX - targetOffsetX) * zoom;
+    targetOffsetY = liveMidY - (liveMidY - targetOffsetY) * zoom;
+    targetSf *= zoom;
 
-targetOffsetX = liveMidX - (liveMidX - targetOffsetX) * zoom;
-targetOffsetY = liveMidY - (liveMidY - targetOffsetY) * zoom;
-targetSf *= zoom;
-
-pinchStartDistance = pinchDistance;
+    pinchStartDistance = pinchDistance;
 
   } else {
     isTouchMoved = true;
