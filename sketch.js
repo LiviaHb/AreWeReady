@@ -3,8 +3,8 @@ let isTouchMoved = false;
 let touchStartPosition;
 let touchPosition;
 
-let touchStartPosition1; // for pinch
-let touchPosition1; // for pinch
+let touchStartPosition1; //pinch
+let touchPosition1; //pinch
 let pinchStartDistance, pinchDistance;
 let pinchThreshold = 75;
 let isPinch = false;
@@ -35,7 +35,7 @@ let qrCode
 let bigNumberSize = 140;
 let displayNumber = 0;
 
-//Pie Chart Data
+//Pie Chart data
 let angles = [345, 54];
 let halbeangles = [241,180];
 let myArray = ['#E4E4E4', '#0101FF'];
@@ -115,7 +115,7 @@ function draw() {
  background(255);
 
  textSize(100);
-  //text(`gesture: ${gesture}`, 50, 50);
+  //text(`geste: ${gesture}`, 50, 50);
 
   sf = lerp(sf, targetSf, EASE);
   offsetX = lerp(offsetX, targetOffsetX, EASE);
@@ -297,7 +297,7 @@ function touchEnded(e) {
   ) {
     gesture = "tap";
 
-    // double tap detection
+    // double tap detection!!
     if (millis() - lastTapTime < doubleTapThreshold) {
       gesture = "double tap";
 
@@ -337,7 +337,6 @@ function touchEnded(e) {
   }else {
     
     zoomToTarget(0,0,0);
-  
   
   }
 
@@ -461,9 +460,9 @@ function draw3D() {
   
   pg3D.ambientLight(100);
   pg3D.directionalLight(255, 255, 255, -1, 1, -3);
-  pg3D.specularMaterial(100,255,50, 0);
-  pg3D.shininess(5);
-  pg3D.emissiveMaterial(0,0,10);
+  pg3D.specularMaterial(170,255,50, 0);
+  pg3D.shininess(18);
+  pg3D.emissiveMaterial(0,0,15);
        
 
   //sehr blau wenig shiny, oberer teil ist fast eine fläche
