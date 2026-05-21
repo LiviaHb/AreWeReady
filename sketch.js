@@ -115,7 +115,7 @@ function draw() {
  background(255);
 
  textSize(100);
-  text(`gesture: ${gesture}`, 50, 50);
+  //text(`gesture: ${gesture}`, 50, 50);
 
   sf = lerp(sf, targetSf, EASE);
   offsetX = lerp(offsetX, targetOffsetX, EASE);
